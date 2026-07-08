@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumenno Spa — Relaxe na sua luz</title>
+<meta name="description" content="Lumenno Spa — massagens e cuidados para costas, cabeça, pés e corpo todo. Agende e pague online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1C1A17;
+    --surface:#2A2622;
+    --surface-2:#332E28;
+    --glow:#E8A54B;
+    --glow-dim: rgba(232,165,75,0.35);
+    --sage:#8B9A82;
+    --cream:#F5F0E8;
+    --muted:#B5AC9E;
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Karla', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:450;
+    margin:0;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter: blur(10px);
+    background: rgba(28,26,23,0.75);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1040px;margin:0 auto;}
+  .logo{font-family:'Fraunces',serif;font-size:22px;letter-spacing:0.5px;}
+  .logo span{color:var(--glow);}
+  .cart-btn{
+    background:var(--surface-2);
+    border:1px solid rgba(255,255,255,0.08);
+    color:var(--cream);
+    padding:10px 18px;
+    border-radius:999px;
+    font-family:'Karla',sans-serif;
+    font-size:14px;
+    cursor:pointer;
+    display:flex;align-items:center;gap:8px;
+    transition:border-color .2s ease;
+  }
+  .cart-btn:hover{border-color:var(--glow);}
+  .cart-count{
+    background:var(--glow);color:#1C1A17;border-radius:999px;
+    min-width:20px;height:20px;font-size:12px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;padding:0 4px;
+  }
+
+  .hero{
+    position:relative;
+    padding:110px 24px 90px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .glow-orb{
+    position:absolute;
+    top:50%;left:50%;
+    width:520px;height:520px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, var(--glow-dim) 0%, rgba(232,165,75,0) 70%);
+    animation:breathe 4s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes breathe{
+    0%,100%{opacity:.55; transform:translate(-50%,-50%) scale(0.92);}
+    50%{opacity:1; transform:translate(-50%,-50%) scale(1.08);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .glow-orb{animation:none;}
+  }
+  .hero h1{
+    position:relative;
+    font-size:clamp(38px,7vw,68px);
+    letter-spacing:-0.5px;
+    max-width:780px;
+    margin:0 auto 18px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--glow);
+  }
+  .hero p{
+    position:relative;
+    color:var(--muted);
+    font-size:18px;
+    max-width:520px;
+    margin:0 auto 34px;
+  }
+  .cta{
+    position:relative;
+    display:inline-block;
+    background:var(--glow);
+    color:#1C1A17;
+    font-weight:700;
+    padding:15px 34px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:15px;
+    letter-spacing:.3px;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 0 0 rgba(232,165,75,0);
+  }
+  .cta:hover{transform:translateY(-2px); box-shadow:0 8px 30px var(--glow-dim);}
+
+  .zone{padding:70px 24px 20px;}
+  .zone-head{
+    display:flex;align-items:baseline;gap:14px;
+    margin-bottom:34px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding-bottom:18px;
+  }
+  .zone-icon{font-size:26px;}
+  .zone-head h2{font-size:28px;color:var(--cream);}
+  .zone-head .zone-sub{color:var(--muted);font-size:14px;margin-left:auto;}
+
+  .plans-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:20px;
+  }
+  .plan-card{
+    background:var(--surface);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:var(--radius);
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .plan-card:hover{border-color:var(--glow-dim); transform:translateY(-3px);}
+  .plan-card h3{font-size:20px;color:var(--cream);}
+  .plan-price{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    color:var(--glow);
+  }
+  .plan-price small{
+    font-family:'Karla',sans-serif;
+    font-size:13px;
+    color:var(--muted);
+    font-weight:400;
+  }
+  .plan-details{
+    list-style:none;
+    padding:0;margin:0;
+    font-size:14px;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .plan-details li::before{
+    content:"·";
+    color:var(--sage);
+    margin-right:6px;
+    font-weight:700;
+  }
+  .plan-select{
+    margin-top:auto;
+    background:transparent;
+    border:1px solid var(--sage);
+    color:var(--cream);
+    padding:11px 16px;
+    border-radius:10px;
+    font-family:'Karla',sans-serif;
+    font-size:14px;
+    cursor:pointer;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .plan-select:hover{background:rgba(139,154,130,0.15);}
+  .plan-select.selected{
+    background:var(--sage);
+    border-color:var(--sage);
+    color:#1C1A17;
+    font-weight:700;
+  }
+
+  .drawer-overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.55);
+    opacity:0;pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:80;
+  }
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(420px, 100%);
+    background:var(--surface);
+    border-left:1px solid rgba(255,255,255,0.08);
+    transform:translateX(100%);
+    transition:transform .3s ease;
+    z-index:90;
+    padding:28px 26px;
+    overflow-y:auto;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer h2{font-size:22px;margin-bottom:20px;}
+  .drawer-close{
+    position:absolute;top:22px;right:22px;
+    background:none;border:none;color:var(--muted);
+    font-size:20px;cursor:pointer;
+  }
+  .selected-item{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--surface-2);
+    padding:12px 14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    font-size:14px;
+  }
+  .selected-item .remove{
+    background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;
+  }
+  .empty-cart{color:var(--muted);font-size:14px;padding:20px 0;}
+  .field{margin-top:16px;}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
+  .field input{
+    width:100%;
+    background:var(--surface-2);
+    border:1px solid rgba(255,255,255,0.1);
+    color:var(--cream);
+    padding:12px 14px;
+    border-radius:10px;
+    font-family:'Karla',sans-serif;
+    font-size:14px;
+  }
+  .field input:focus{outline:2px solid var(--glow); outline-offset:1px;}
+  .total-row{
+    display:flex;justify-content:space-between;
+    margin:24px 0 6px;
+    font-size:17px;
+    font-family:'Fraunces',serif;
+  }
+  .total-row span:last-child{color:var(--glow);}
+  .checkout-btn{
+    width:100%;
+    margin-top:16px;
+    background:var(--glow);
+    color:#1C1A17;
+    border:none;
+    padding:15px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    transition:opacity .2s ease;
+  }
+  .checkout-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .checkout-note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
+  .status-msg{font-size:13px;margin-top:12px;text-align:center;}
+  .status-msg.error{color:#E8846B;}
+  .status-msg.ok{color:var(--sage);}
+
+  footer{
+    text-align:center;
+    padding:50px 24px;
+    color:var(--muted);
+    font-size:13px;
+    border-top:1px solid rgba(255,255,255,0.06);
+    margin-top:60px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Lume<span>nno</span></div>
+    <button class="cart-btn" id="openCart" aria-label="Ver seleção">
+      Sua seleção <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="glow-orb" aria-hidden="true"></div>
+  <h1>Encontre sua <em>luz</em> interior</h1>
+  <p>Massagens e cuidados pensados para cada parte do seu corpo. Escolha, agende e relaxe.</p>
+  <a href="#planos" class="cta">Ver planos</a>
+</section>
+
+<main id="planos">
+
+  <div class="zone wrap">
+    <div class="zone-head">
+      <span class="zone-icon">🛁</span>
+      <h2>Costas</h2>
+      <span class="zone-sub">3 planos</span>
+    </div>
+    <div class="plans-grid" id="zona-costas"></div>
+  </div>
+
+  <div class="zone wrap">
+    <div class="zone-head">
+      <span class="zone-icon">💆</span>
+      <h2>Cabeça</h2>
+      <span class="zone-sub">2 planos</span>
+    </div>
+    <div class="plans-grid" id="zona-cabeca"></div>
+  </div>
+
+  <div class="zone wrap">
+    <div class="zone-head">
+      <span class="zone-icon">🦶</span>
+      <h2>Pé</h2>
+      <span class="zone-sub">1 plano</span>
+    </div>
+    <div class="plans-grid" id="zona-pe"></div>
+  </div>
+
+  <div class="zone wrap">
+    <div class="zone-head">
+      <span class="zone-icon">🧖</span>
+      <h2>Corpo todo</h2>
+      <span class="zone-sub">1 plano</span>
+    </div>
+    <div class="plans-grid" id="zona-corpo"></div>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  Lumenno Spa · Pagamentos processados via InfinitePay
+</footer>
+
+<div class="drawer-overlay" id="overlay"></div>
+<div class="drawer" id="drawer" role="dialog" aria-label="Sua seleção e checkout">
+  <button class="drawer-close" id="closeDrawer" aria-label="Fechar">✕</button>
+  <h2>Sua seleção</h2>
+  <div id="selectedItems"><p class="empty-cart">Nenhum plano selecionado ainda.</p></div>
+
+  <div class="field">
+    <label for="custName">Nome completo</label>
+    <input type="text" id="custName" placeholder="Seu nome">
+  </div>
+  <div class="field">
+    <label for="custPhone">Telefone / WhatsApp</label>
+    <input type="tel" id="custPhone" placeholder="(61) 90000-0000">
+  </div>
+
+  <div class="total-row">
+    <span>Total</span>
+    <span id="totalValue">R$ 0,00</span>
+  </div>
+
+  <button class="checkout-btn" id="checkoutBtn" disabled>Pagar com InfinitePay</button>
+  <p class="checkout-note">Você será redirecionado para o checkout seguro da InfinitePay.</p>
+  <div id="statusMsg"></div>
+</div>
+
+<script>
+const PLANS = {
+  costas: [
+    { id:'relaxing-base', name:'Relaxing Base', price:34.52, details:['1 – 20 min', 'Creme adicional (+R$ 2,56)'] },
+    { id:'relaxing-plus', name:'Relaxing Plus RMC', price:45.73, details:['20 – 45 min', 'Creme adicional (+R$ 2,56)'] },
+    { id:'true-spa', name:'True Spa', price:59.99, details:['1 hora (hora extra +R$ 3)', 'Creme Nívea (+R$ 6)'] },
+  ],
+  cabeca: [
+    { id:'cafune-care', name:'Cafuné Care', price:23.59, details:['10 – 20 min', 'Shampoo Dove ou anticaspa', 'Água quente ou morna · toalhinha'] },
+    { id:'calm-comfy', name:'Calm & Comfy', price:10.00, details:['Cafuné tradicional', 'Tempo livre — você decide'] },
+  ],
+  pe: [
+    { id:'neatly-feet', name:'Neatly Feet', price:34.56, details:['10 – 30 min', 'Limpeza e relaxamento', 'Creme Nívea'] },
+  ],
+  corpo: [
+    { id:'body-relax', name:'Body Relax', price:60.00, details:['Combina todos os cuidados', 'A experiência completa Lumenno'] },
+  ],
+};
+
+const money = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+
+function renderZone(zoneKey, containerId){
+  const container = document.getElementById(containerId);
+  container.innerHTML = PLANS[zoneKey].map(plan => `
+    <div class="plan-card">
+      <h3>${plan.name}</h3>
+      <div class="plan-price">${money(plan.price)}</div>
+      <ul class="plan-details">
+        ${plan.details.map(d => `<li>${d}</li>`).join('')}
+      </ul>
+      <button class="plan-select" data-id="${plan.id}">Selecionar</button>
+    </div>
+  `).join('');
+}
+renderZone('costas','zona-costas');
+renderZone('cabeca','zona-cabeca');
+renderZone('pe','zona-pe');
+renderZone('corpo','zona-corpo');
+
+const ALL_PLANS = Object.values(PLANS).flat();
+let selected = [];
+
+function findPlan(id){ return ALL_PLANS.find(p => p.id === id); }
+
+document.querySelectorAll('.plan-select').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.id;
+    const idx = selected.indexOf(id);
+    if (idx === -1){
+      selected.push(id);
+      btn.classList.add('selected');
+      btn.textContent = 'Selecionado ✓';
+    } else {
+      selected.splice(idx,1);
+      btn.classList.remove('selected');
+      btn.textContent = 'Selecionar';
+    }
+    renderCart();
+  });
+});
+
+function renderCart(){
+  const container = document.getElementById('selectedItems');
+  const countEl = document.getElementById('cartCount');
+  const totalEl = document.getElementById('totalValue');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+
+  countEl.textContent = selected.length;
+
+  if (selected.length === 0){
+    container.innerHTML = '<p class="empty-cart">Nenhum plano selecionado ainda.</p>';
+    totalEl.textContent = money(0);
+    checkoutBtn.disabled = true;
+    return;
+  }
+
+  container.innerHTML = selected.map(id => {
+    const p = findPlan(id);
+    return `
+      <div class="selected-item">
+        <span>${p.name} — ${money(p.price)}</span>
+        <button class="remove" data-id="${id}" aria-label="Remover">✕</button>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.remove').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      selected = selected.filter(s => s !== id);
+      document.querySelector(`.plan-select[data-id="${id}"]`).classList.remove('selected');
+      document.querySelector(`.plan-select[data-id="${id}"]`).textContent = 'Selecionar';
+      renderCart();
+    });
+  });
+
+  const total = selected.reduce((sum,id) => sum + findPlan(id).price, 0);
+  totalEl.textContent = money(total);
+  checkoutBtn.disabled = false;
+}
+
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+document.getElementById('openCart').addEventListener('click', () => {
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+});
+function closeDrawer(){
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+}
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+
+const SUPABASE_FUNCTION_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co/functions/v1/create-order';
+
+document.getElementById('checkoutBtn').addEventListener('click', async () => {
+  const statusMsg = document.getElementById('statusMsg');
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const checkoutBtn = document.getElementById('checkoutBtn');
+
+  statusMsg.textContent = '';
+  statusMsg.className = 'status-msg';
+
+  if (!name || !phone){
+    statusMsg.textContent = 'Preencha nome e telefone para continuar.';
+    statusMsg.classList.add('error');
+    return;
+  }
+  if (selected.length === 0){
+    statusMsg.textContent = 'Selecione ao menos um plano.';
+    statusMsg.classList.add('error');
+    return;
+  }
+
+  const items = selected.map(id => {
+    const p = findPlan(id);
+    return { id: p.id, name: p.name, price: p.price };
+  });
+  const total = items.reduce((sum,i) => sum + i.price, 0);
+
+  checkoutBtn.disabled = true;
+  checkoutBtn.textContent = 'Gerando checkout...';
+
+  try {
+    const res = await fetch(SUPABASE_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer: { name, phone }, items, total })
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.checkout_url){
+      throw new Error(data.error || 'Não foi possível gerar o checkout.');
+    }
+
+    statusMsg.textContent = 'Redirecionando para o pagamento...';
+    statusMsg.classList.add('ok');
+    window.location.href = data.checkout_url;
+
+  } catch (err){
+    statusMsg.textContent = err.message || 'Erro ao processar. Tente novamente.';
+    statusMsg.classList.add('error');
+    checkoutBtn.disabled = false;
+    checkoutBtn.textContent = 'Pagar com InfinitePay';
+  }
+});
+</script>
+
+</body>
+</html>
