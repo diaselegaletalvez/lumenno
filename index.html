@@ -485,6 +485,8 @@ document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
 
 const SUPABASE_FUNCTION_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co/functions/v1/create-order';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1cGtpaHFxY3hsbWd5amdmcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1MzAxNDQsImV4cCI6MjA5OTEwNjE0NH0.34WLNmTV8tHHiIHskeTKpnecUhHEHQkmXN3JHaW-BWQ';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1cGtpaHFxY3hsbWd5amdmcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1MzAxNDQsImV4cCI6MjA5OTEwNjE0NH0.34WLNmTV8tHHiIHskeTKpnecUhHEHQkmXN3JHaW-BWQ';
 
 document.getElementById('checkoutBtn').addEventListener('click', async () => {
   const statusMsg = document.getElementById('statusMsg');
@@ -518,13 +520,17 @@ document.getElementById('checkoutBtn').addEventListener('click', async () => {
   try {
     const res = await fetch(SUPABASE_FUNCTION_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': SUPABASE_ANON_KEY
+      },
       body: JSON.stringify({ customer: { name, phone }, items, total })
     });
     const data = await res.json();
 
     if (!res.ok || !data.checkout_url){
-      throw new Error(data.error || 'Não foi possível gerar o checkout.');
+      throw new Error(data.error || data.message || 'Não foi possível gerar o checkout.');
     }
 
     statusMsg.textContent = 'Redirecionando para o pagamento...';
