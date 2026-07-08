@@ -3,357 +3,526 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lumenno Spa — Relaxe na sua luz</title>
-<meta name="description" content="Lumenno Spa — massagens e cuidados para costas, cabeça, pés e corpo todo. Agende e pague online.">
+<title>Lumenno — Casa de Rituais</title>
+<meta name="description" content="Lumenno — uma casa de rituais de bem-estar. Corpo, cabeça, costas e pés, em sessões que você monta à sua medida.">
+<meta name="theme-color" content="#4A5D3A">
+
+<link rel="icon" type="image/svg+xml" href="assets/emblem.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<meta property="og:title" content="Lumenno — Casa de Rituais">
+<meta property="og:description" content="Rituais de bem-estar para corpo, cabeça, costas e pés — monte sua sessão à sua medida.">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --bg:#1C1A17;
-    --surface:#2A2622;
-    --surface-2:#332E28;
-    --glow:#E8A54B;
-    --glow-dim: rgba(232,165,75,0.35);
-    --sage:#8B9A82;
-    --cream:#F5F0E8;
-    --muted:#B5AC9E;
-    --radius: 18px;
+    --herb:#4A5D3A;
+    --herb-dark:#333F27;
+    --herb-light:#7C8F65;
+    --gold:#C9A227;
+    --gold-light:#E4C660;
+    --cream:#F7F3EA;
+    --cream-2:#EFE8D8;
+    --ink:#2B2A22;
+    --ink-soft:#5C5646;
+    --white:#FFFDF8;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg);
-    color:var(--cream);
-    font-family:'Karla', sans-serif;
-    line-height:1.5;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
+    font-weight:400;
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{
-    font-family:'Fraunces', serif;
-    font-weight:450;
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
     margin:0;
+    color:var(--herb-dark);
   }
-  a{color:inherit;}
-  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+  }
+  .sprig{width:28px;height:28px;opacity:.8;}
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
 
-  /* Header */
+  .promo-bar{
+    background:var(--herb);
+    color:var(--cream);
+    text-align:center;
+    font-size:13px;
+    letter-spacing:.5px;
+    padding:9px 16px;
+  }
+  .promo-bar b{color:var(--gold-light);}
+
   header{
     position:sticky;top:0;z-index:50;
-    backdrop-filter: blur(10px);
-    background: rgba(28,26,23,0.75);
-    border-bottom:1px solid rgba(255,255,255,0.06);
+    background:rgba(247,243,234,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(74,93,58,0.15);
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1040px;margin:0 auto;}
-  .logo{font-family:'Fraunces',serif;font-size:22px;letter-spacing:0.5px;}
-  .logo span{color:var(--glow);}
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1080px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-name{font-family:'Cormorant Garamond',serif; font-size:24px; letter-spacing:1px; color:var(--herb-dark);}
+  .nav-links{display:flex;gap:32px;font-size:14px;letter-spacing:.3px;}
+  .nav-links a{color:var(--ink-soft); transition:color .2s ease;}
+  .nav-links a:hover{color:var(--herb);}
   .cart-btn{
-    background:var(--surface-2);
-    border:1px solid rgba(255,255,255,0.08);
+    background:var(--herb);
     color:var(--cream);
-    padding:10px 18px;
-    border-radius:999px;
-    font-family:'Karla',sans-serif;
-    font-size:14px;
+    border:none;
+    padding:10px 20px;
+    border-radius:2px;
+    font-family:'Jost',sans-serif;
+    font-size:13px;
+    letter-spacing:.5px;
     cursor:pointer;
     display:flex;align-items:center;gap:8px;
-    transition:border-color .2s ease;
   }
-  .cart-btn:hover{border-color:var(--glow);}
   .cart-count{
-    background:var(--glow);color:#1C1A17;border-radius:999px;
-    min-width:20px;height:20px;font-size:12px;font-weight:700;
-    display:flex;align-items:center;justify-content:center;padding:0 4px;
+    background:var(--gold);color:var(--ink);border-radius:50%;
+    min-width:18px;height:18px;font-size:11px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
   }
+  @media (max-width:760px){ .nav-links{display:none;} }
 
-  /* Hero */
   .hero{
     position:relative;
-    padding:110px 24px 90px;
+    padding:120px 28px 100px;
     text-align:center;
     overflow:hidden;
   }
-  .glow-orb{
-    position:absolute;
-    top:50%;left:50%;
-    width:520px;height:520px;
-    transform:translate(-50%,-50%);
-    background:radial-gradient(circle, var(--glow-dim) 0%, rgba(232,165,75,0) 70%);
-    animation:breathe 4s ease-in-out infinite;
-    pointer-events:none;
+  .hero-emblem{
+    width:64px;height:64px;margin:0 auto 28px;
+    animation:fadeDown 1s ease both;
   }
-  @keyframes breathe{
-    0%,100%{opacity:.55; transform:translate(-50%,-50%) scale(0.92);}
-    50%{opacity:1; transform:translate(-50%,-50%) scale(1.08);}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .glow-orb{animation:none;}
-  }
+  @keyframes fadeDown{from{opacity:0; transform:translateY(-16px);} to{opacity:1; transform:translateY(0);}}
   .hero h1{
-    position:relative;
-    font-size:clamp(38px,7vw,68px);
-    letter-spacing:-0.5px;
-    max-width:780px;
-    margin:0 auto 18px;
-  }
-  .hero h1 em{
+    font-size:clamp(42px,7vw,76px);
     font-style:italic;
-    color:var(--glow);
+    font-weight:500;
+    max-width:820px;
+    margin:0 auto 22px;
+    animation:fadeUp 1s ease .15s both;
   }
+  @keyframes fadeUp{from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);}}
   .hero p{
-    position:relative;
-    color:var(--muted);
+    color:var(--ink-soft);
     font-size:18px;
     max-width:520px;
-    margin:0 auto 34px;
+    margin:0 auto 36px;
+    animation:fadeUp 1s ease .3s both;
   }
-  .cta{
-    position:relative;
+  .hero-cta{
     display:inline-block;
-    background:var(--glow);
-    color:#1C1A17;
-    font-weight:700;
-    padding:15px 34px;
-    border-radius:999px;
-    text-decoration:none;
-    font-size:15px;
-    letter-spacing:.3px;
-    transition:transform .2s ease, box-shadow .2s ease;
-    box-shadow:0 0 0 rgba(232,165,75,0);
+    animation:fadeUp 1s ease .45s both;
   }
-  .cta:hover{transform:translateY(-2px); box-shadow:0 8px 30px var(--glow-dim);}
-
-  /* Section headers by body zone */
-  .zone{padding:70px 24px 20px;}
-  .zone-head{
-    display:flex;align-items:baseline;gap:14px;
-    margin-bottom:34px;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    padding-bottom:18px;
-  }
-  .zone-icon{font-size:26px;}
-  .zone-head h2{font-size:28px;color:var(--cream);}
-  .zone-head .zone-sub{color:var(--muted);font-size:14px;margin-left:auto;}
-
-  .plans-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
-    gap:20px;
-  }
-  .plan-card{
-    background:var(--surface);
-    border:1px solid rgba(255,255,255,0.06);
-    border-radius:var(--radius);
-    padding:26px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    transition:border-color .2s ease, transform .2s ease;
-  }
-  .plan-card:hover{border-color:var(--glow-dim); transform:translateY(-3px);}
-  .plan-card h3{font-size:20px;color:var(--cream);}
-  .plan-price{
-    font-family:'Fraunces',serif;
-    font-size:26px;
-    color:var(--glow);
-  }
-  .plan-price small{
-    font-family:'Karla',sans-serif;
-    font-size:13px;
-    color:var(--muted);
-    font-weight:400;
-  }
-  .plan-details{
-    list-style:none;
-    padding:0;margin:0;
+  .btn-primary{
+    background:var(--herb);
+    color:var(--cream);
+    padding:15px 36px;
+    border-radius:2px;
     font-size:14px;
-    color:var(--muted);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    border:1px solid var(--herb);
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease;
+  }
+  .btn-primary:hover{background:transparent; color:var(--herb);}
+
+  .section{padding:90px 28px;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 56px;}
+  .section-head h2{font-size:clamp(30px,4vw,44px); margin:14px 0 18px;}
+  .section-head p{color:var(--ink-soft); font-size:16px;}
+
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:40px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .pillar{text-align:center;}
+  .pillar-icon{font-size:30px; margin-bottom:14px; display:block;}
+  .pillar h3{font-size:22px; margin-bottom:10px;}
+  .pillar p{font-size:14px; color:var(--ink-soft);}
+  @media (max-width:760px){ .pillars{grid-template-columns:1fr; gap:32px;} }
+
+  .carta{background:var(--white);}
+  .tabs{
+    display:flex; justify-content:center; gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:48px;
+  }
+  .tab-btn{
+    background:transparent;
+    border:1px solid rgba(74,93,58,0.3);
+    color:var(--ink-soft);
+    padding:11px 26px;
+    border-radius:999px;
+    font-family:'Jost',sans-serif;
+    font-size:14px;
+    letter-spacing:.4px;
+    cursor:pointer;
+    transition:all .25s ease;
+    display:flex; align-items:center; gap:8px;
+  }
+  .tab-btn:hover{border-color:var(--herb);}
+  .tab-btn.active{background:var(--herb); border-color:var(--herb); color:var(--cream);}
+
+  .zone-panel{display:none;}
+  .zone-panel.active{display:block; animation:fadeIn .4s ease;}
+  @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+  .tier-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+  }
+  @media (max-width:960px){ .tier-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .tier-grid{grid-template-columns:1fr;} }
+
+  .tier-card{
+    background:var(--cream);
+    border:1px solid rgba(74,93,58,0.15);
+    border-radius:4px;
+    padding:26px 22px;
     display:flex;
     flex-direction:column;
-    gap:6px;
+    gap:12px;
+    transition:transform .25s ease, box-shadow .25s ease;
   }
-  .plan-details li::before{
-    content:"·";
-    color:var(--sage);
-    margin-right:6px;
-    font-weight:700;
+  .tier-card:hover{transform:translateY(-4px); box-shadow:0 14px 30px rgba(74,93,58,0.12);}
+  .tier-card.elite{
+    background:linear-gradient(160deg, #FBF6E8, var(--cream));
+    border:1px solid var(--gold);
+    position:relative;
   }
-  .plan-select{
+  .elite-badge{
+    position:absolute; top:-11px; right:16px;
+    background:var(--gold);
+    color:var(--ink);
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:999px;
+    font-weight:600;
+  }
+  .tier-name{font-size:20px; color:var(--herb-dark);}
+  .tier-range{font-size:13px; color:var(--ink-soft);}
+  .tier-price{
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    color:var(--herb);
+  }
+  .tier-price .strike{
+    font-size:15px;
+    color:#B0A98F;
+    text-decoration:line-through;
+    margin-right:8px;
+    font-family:'Jost',sans-serif;
+  }
+  .tier-features{list-style:none; padding:0; margin:0; font-size:13px; color:var(--ink-soft); display:flex; flex-direction:column; gap:5px;}
+  .tier-features li::before{content:"— "; color:var(--gold);}
+  .tier-build-btn{
     margin-top:auto;
     background:transparent;
-    border:1px solid var(--sage);
-    color:var(--cream);
-    padding:11px 16px;
-    border-radius:10px;
-    font-family:'Karla',sans-serif;
-    font-size:14px;
+    border:1px solid var(--herb);
+    color:var(--herb);
+    padding:10px 14px;
+    border-radius:2px;
+    font-size:13px;
+    letter-spacing:.4px;
     cursor:pointer;
-    transition:background .2s ease, border-color .2s ease;
+    transition:background .2s ease, color .2s ease;
   }
-  .plan-select:hover{background:rgba(139,154,130,0.15);}
-  .plan-select.selected{
-    background:var(--sage);
-    border-color:var(--sage);
-    color:#1C1A17;
-    font-weight:700;
-  }
+  .tier-build-btn:hover{background:var(--herb); color:var(--cream);}
+  .tier-build-btn.open{background:var(--herb); color:var(--cream);}
 
-  /* Checkout drawer */
-  .drawer-overlay{
-    position:fixed;inset:0;
-    background:rgba(0,0,0,0.55);
-    opacity:0;pointer-events:none;
-    transition:opacity .25s ease;
-    z-index:80;
-  }
-  .drawer-overlay.open{opacity:1;pointer-events:auto;}
-  .drawer{
-    position:fixed;top:0;right:0;bottom:0;
-    width:min(420px, 100%);
-    background:var(--surface);
-    border-left:1px solid rgba(255,255,255,0.08);
-    transform:translateX(100%);
-    transition:transform .3s ease;
-    z-index:90;
+  .builder{
+    grid-column:1 / -1;
+    background:var(--cream-2);
+    border:1px solid rgba(74,93,58,0.2);
+    border-radius:4px;
     padding:28px 26px;
-    overflow-y:auto;
+    margin-top:4px;
+    display:none;
   }
-  .drawer.open{transform:translateX(0);}
-  .drawer h2{font-size:22px;margin-bottom:20px;}
-  .drawer-close{
-    position:absolute;top:22px;right:22px;
-    background:none;border:none;color:var(--muted);
-    font-size:20px;cursor:pointer;
+  .builder.open{display:block; animation:fadeIn .3s ease;}
+  .builder-row{margin-bottom:22px;}
+  .builder-row label{
+    display:block; font-size:13px; letter-spacing:.4px; color:var(--ink-soft); margin-bottom:10px;
+    text-transform:uppercase; font-weight:500;
   }
-  .selected-item{
-    display:flex;justify-content:space-between;align-items:center;
-    background:var(--surface-2);
-    padding:12px 14px;
-    border-radius:10px;
-    margin-bottom:10px;
-    font-size:14px;
+  .duration-slider{width:100%; accent-color:var(--herb);}
+  .duration-value{font-size:14px; color:var(--herb-dark); margin-top:6px;}
+  .intensity-group{display:flex; gap:10px;}
+  .intensity-opt{
+    flex:1; text-align:center;
+    padding:10px; border:1px solid rgba(74,93,58,0.3); border-radius:2px;
+    cursor:pointer; font-size:13px; transition:all .2s ease;
   }
-  .selected-item .remove{
-    background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;
+  .intensity-opt.selected{background:var(--herb); color:var(--cream); border-color:var(--herb);}
+  .toggle-row{display:flex; align-items:center; justify-content:space-between;}
+  .toggle{
+    width:44px; height:24px; background:rgba(74,93,58,0.25); border-radius:999px;
+    position:relative; cursor:pointer; transition:background .2s ease; border:none;
   }
-  .empty-cart{color:var(--muted);font-size:14px;padding:20px 0;}
-  .field{margin-top:16px;}
-  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
-  .field input{
-    width:100%;
-    background:var(--surface-2);
-    border:1px solid rgba(255,255,255,0.1);
+  .toggle.on{background:var(--herb);}
+  .toggle::after{
+    content:""; position:absolute; top:3px; left:3px;
+    width:18px; height:18px; background:var(--white); border-radius:50%;
+    transition:transform .2s ease;
+  }
+  .toggle.on::after{transform:translateX(20px);}
+  .builder-total{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-top:1px solid rgba(74,93,58,0.2);
+    padding-top:18px; margin-top:6px;
+  }
+  .builder-total .label{font-size:14px; color:var(--ink-soft);}
+  .builder-total .value{font-family:'Cormorant Garamond',serif; font-size:30px; color:var(--herb);}
+  .builder-add-btn{
+    width:100%; margin-top:18px;
+    background:var(--herb); color:var(--cream); border:none;
+    padding:14px; border-radius:2px; font-size:14px; letter-spacing:.5px;
+    cursor:pointer; transition:opacity .2s ease;
+  }
+  .builder-add-btn:hover{opacity:.9;}
+
+  .oils-banner{
+    background:var(--herb);
     color:var(--cream);
-    padding:12px 14px;
-    border-radius:10px;
-    font-family:'Karla',sans-serif;
-    font-size:14px;
+    text-align:center;
+    padding:70px 28px;
   }
-  .field input:focus{outline:2px solid var(--glow); outline-offset:1px;}
-  .total-row{
-    display:flex;justify-content:space-between;
-    margin:24px 0 6px;
-    font-size:17px;
-    font-family:'Fraunces',serif;
+  .oils-banner .eyebrow{color:var(--gold-light);}
+  .oils-banner h2{color:var(--cream); font-style:italic; margin:14px 0 16px;}
+  .oils-banner p{color:rgba(247,243,234,0.8); max-width:560px; margin:0 auto;}
+
+  .reserva-inner{
+    text-align:center;
+    max-width:560px;
+    margin:0 auto;
   }
-  .total-row span:last-child{color:var(--glow);}
-  .checkout-btn{
-    width:100%;
-    margin-top:16px;
-    background:var(--glow);
-    color:#1C1A17;
-    border:none;
-    padding:15px;
-    border-radius:10px;
-    font-weight:700;
-    font-size:15px;
-    cursor:pointer;
-    transition:opacity .2s ease;
-  }
-  .checkout-btn:disabled{opacity:.5;cursor:not-allowed;}
-  .checkout-note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
-  .status-msg{font-size:13px;margin-top:12px;text-align:center;}
-  .status-msg.error{color:#E8846B;}
-  .status-msg.ok{color:var(--sage);}
 
   footer{
-    text-align:center;
-    padding:50px 24px;
-    color:var(--muted);
-    font-size:13px;
-    border-top:1px solid rgba(255,255,255,0.06);
-    margin-top:60px;
+    background:var(--herb-dark);
+    color:rgba(247,243,234,0.75);
+    padding:60px 28px 32px;
   }
+  .footer-inner{
+    max-width:1080px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;
+  }
+  .footer-brand{display:flex; align-items:center; gap:10px;}
+  .footer-brand .brand-name{color:var(--cream);}
+  .footer-cta{
+    background:var(--gold);
+    color:var(--ink);
+    border:none;
+    padding:12px 24px;
+    border-radius:2px;
+    font-size:13px;
+    letter-spacing:.4px;
+    cursor:pointer;
+  }
+  .footer-bottom{
+    text-align:center; margin-top:44px; font-size:12px; color:rgba(247,243,234,0.4);
+    border-top:1px solid rgba(247,243,234,0.1); padding-top:22px;
+  }
+
+  .drawer-overlay{position:fixed;inset:0;background:rgba(43,42,34,0.55);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:80;}
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);
+    background:var(--white);border-left:1px solid rgba(74,93,58,0.2);
+    transform:translateX(100%);transition:transform .3s ease;z-index:90;
+    padding:30px 26px;overflow-y:auto;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer h2{font-size:24px;margin-bottom:20px;}
+  .drawer-close{position:absolute;top:24px;right:24px;background:none;border:none;color:var(--ink-soft);font-size:20px;cursor:pointer;}
+  .selected-item{
+    background:var(--cream);padding:12px 14px;border-radius:3px;margin-bottom:10px;font-size:13px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+  }
+  .selected-item .remove{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:15px;}
+  .selected-item .si-name{font-weight:500; color:var(--herb-dark);}
+  .selected-item .si-meta{color:var(--ink-soft); font-size:12px; margin-top:2px;}
+  .empty-cart{color:var(--ink-soft);font-size:14px;padding:20px 0;}
+  .field{margin-top:14px;}
+  .field label{display:block;font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%;background:var(--cream);border:1px solid rgba(74,93,58,0.25);color:var(--ink);
+    padding:11px 13px;border-radius:2px;font-family:'Jost',sans-serif;font-size:14px;
+  }
+  .field textarea{resize:vertical; min-height:60px;}
+  .total-row{display:flex;justify-content:space-between;margin:22px 0 6px;font-size:16px;font-family:'Cormorant Garamond',serif;}
+  .total-row span:last-child{color:var(--herb); font-size:22px;}
+  .checkout-btn{
+    width:100%;margin-top:14px;background:var(--herb);color:var(--cream);border:none;
+    padding:15px;border-radius:2px;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:opacity .2s ease;
+  }
+  .checkout-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .checkout-note{font-size:12px;color:var(--ink-soft);margin-top:10px;text-align:center;}
+  .status-msg{font-size:13px;margin-top:12px;text-align:center;}
+  .status-msg.error{color:#B5544A;}
+  .status-msg.ok{color:var(--herb);}
 </style>
 </head>
 <body>
 
+<div class="promo-bar">Ritual de abertura — <b>10% off</b> em todos os planos Pro e acima</div>
+
 <header>
   <div class="nav">
-    <div class="logo">Lume<span>nno</span></div>
-    <button class="cart-btn" id="openCart" aria-label="Ver seleção">
-      Sua seleção <span class="cart-count" id="cartCount">0</span>
-    </button>
+    <div class="brand">
+      <svg class="sprig" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="96" fill="none" stroke="#C9A227" stroke-width="4"/>
+        <g fill="#4A5D3A">
+          <path d="M100 150 L100 62" stroke="#4A5D3A" stroke-width="4" stroke-linecap="round"/>
+          <path d="M100 128 C88 118,76 116,64 122 C72 132,84 134,100 128Z"/>
+          <path d="M100 128 C112 118,124 116,136 122 C128 132,116 134,100 128Z"/>
+          <path d="M100 104 C90 95,80 93,70 98 C77 107,88 109,100 104Z"/>
+          <path d="M100 104 C110 95,120 93,130 98 C123 107,112 109,100 104Z"/>
+        </g>
+        <circle cx="100" cy="58" r="6" fill="#C9A227"/>
+      </svg>
+      <span class="brand-name">Lumenno</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#a-casa">A Casa</a>
+      <a href="#rituais">Rituais</a>
+      <a href="#reserva">Reserva</a>
+    </nav>
+    <button class="cart-btn" id="openCart">Sua sessão <span class="cart-count" id="cartCount">0</span></button>
   </div>
 </header>
 
 <section class="hero">
-  <div class="glow-orb" aria-hidden="true"></div>
-  <h1>Encontre sua <em>luz</em> interior</h1>
-  <p>Massagens e cuidados pensados para cada parte do seu corpo. Escolha, agende e relaxe.</p>
-  <a href="#planos" class="cta">Ver planos</a>
+  <svg class="hero-emblem" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="96" fill="none" stroke="#C9A227" stroke-width="3"/>
+    <g fill="#4A5D3A">
+      <path d="M100 150 L100 62" stroke="#4A5D3A" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M100 128 C88 118,76 116,64 122 C72 132,84 134,100 128Z"/>
+      <path d="M100 128 C112 118,124 116,136 122 C128 132,116 134,100 128Z"/>
+      <path d="M100 104 C90 95,80 93,70 98 C77 107,88 109,100 104Z"/>
+      <path d="M100 104 C110 95,120 93,130 98 C123 107,112 109,100 104Z"/>
+    </g>
+    <circle cx="100" cy="58" r="5" fill="#C9A227"/>
+  </svg>
+  <h1>Uma casa para desacelerar</h1>
+  <p>Rituais de bem-estar para corpo, cabeça, costas e pés — você escolhe o nível, o tempo e a intensidade.</p>
+  <div class="hero-cta">
+    <a href="#rituais" class="btn-primary">Ver carta de rituais</a>
+  </div>
 </section>
 
-<main id="planos">
-
-  <div class="zone wrap">
-    <div class="zone-head">
-      <span class="zone-icon">🛁</span>
-      <h2>Costas</h2>
-      <span class="zone-sub">3 planos</span>
-    </div>
-    <div class="plans-grid" id="zona-costas"></div>
+<section class="section reveal" id="a-casa">
+  <div class="wrap section-head">
+    <span class="eyebrow">A Casa</span>
+    <h2>Devagar, com intenção</h2>
+    <p>Lumenno nasceu da ideia simples de que descanso é coisa séria. Cada ritual é montado com você — no tempo que você tem, na intensidade que seu corpo pede.</p>
   </div>
-
-  <div class="zone wrap">
-    <div class="zone-head">
-      <span class="zone-icon">💆</span>
-      <h2>Cabeça</h2>
-      <span class="zone-sub">2 planos</span>
+  <div class="wrap pillars">
+    <div class="pillar">
+      <span class="pillar-icon">🌿</span>
+      <h3>Ingredientes simples</h3>
+      <p>Óleos e cremes escolhidos a dedo, sem pressa e sem excesso.</p>
     </div>
-    <div class="plans-grid" id="zona-cabeca"></div>
-  </div>
-
-  <div class="zone wrap">
-    <div class="zone-head">
-      <span class="zone-icon">🦶</span>
-      <h2>Pé</h2>
-      <span class="zone-sub">1 plano</span>
+    <div class="pillar">
+      <span class="pillar-icon">◈</span>
+      <h3>Sessão sob medida</h3>
+      <p>Duração, intensidade e extras — o ritual se ajusta a você, não o contrário.</p>
     </div>
-    <div class="plans-grid" id="zona-pe"></div>
-  </div>
-
-  <div class="zone wrap">
-    <div class="zone-head">
-      <span class="zone-icon">🧖</span>
-      <h2>Corpo todo</h2>
-      <span class="zone-sub">1 plano</span>
+    <div class="pillar">
+      <span class="pillar-icon">✦</span>
+      <h3>Sem pressa</h3>
+      <p>Cada visita tem espaço reservado, sem sobreposição de horários.</p>
     </div>
-    <div class="plans-grid" id="zona-corpo"></div>
   </div>
+</section>
 
-</main>
+<section class="section carta reveal" id="rituais">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Carta de Rituais</span>
+      <h2>Escolha sua região</h2>
+      <p>Quatro zonas, quatro níveis cada. Monte a sessão exatamente como você precisa hoje.</p>
+    </div>
 
-<footer class="wrap">
-  Lumenno Spa · Pagamentos processados via InfinitePay
+    <div class="tabs" id="tabs"></div>
+    <div id="zonePanels"></div>
+  </div>
+</section>
+
+<section class="oils-banner reveal">
+  <span class="eyebrow">Óleos &amp; Cremes</span>
+  <h2>Aromaterapia à parte</h2>
+  <p>Creme aromático disponível em qualquer ritual — um toque a mais de calma, ativado com um clique na montagem da sua sessão.</p>
+</section>
+
+<section class="section reveal" id="reserva">
+  <div class="wrap reserva-inner">
+    <span class="eyebrow">Reserva</span>
+    <h2 style="margin:14px 0 18px;">Pronta pra sua sessão?</h2>
+    <p style="color:var(--ink-soft); margin-bottom:32px;">Monte seus rituais na carta acima, revise sua sessão e finalize o pagamento com segurança.</p>
+    <button class="btn-primary" id="openReserva">Revisar minha sessão</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="sprig" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="96" fill="none" stroke="#C9A227" stroke-width="4"/>
+        <g fill="#F7F3EA">
+          <path d="M100 150 L100 62" stroke="#F7F3EA" stroke-width="4" stroke-linecap="round"/>
+          <path d="M100 128 C88 118,76 116,64 122 C72 132,84 134,100 128Z"/>
+          <path d="M100 128 C112 118,124 116,136 122 C128 132,116 134,100 128Z"/>
+        </g>
+      </svg>
+      <span class="brand-name">Lumenno</span>
+    </div>
+    <a class="footer-cta" href="sms:gd665742@gmail.com" id="talkToPedrao">Falar com o Pedrão</a>
+  </div>
+  <div class="footer-bottom">Lumenno · Pagamentos processados via InfinitePay</div>
 </footer>
 
 <div class="drawer-overlay" id="overlay"></div>
-<div class="drawer" id="drawer" role="dialog" aria-label="Sua seleção e checkout">
+<div class="drawer" id="drawer" role="dialog" aria-label="Sua sessão e checkout">
   <button class="drawer-close" id="closeDrawer" aria-label="Fechar">✕</button>
-  <h2>Sua seleção</h2>
-  <div id="selectedItems"><p class="empty-cart">Nenhum plano selecionado ainda.</p></div>
+  <h2>Sua sessão</h2>
+  <div id="selectedItems"><p class="empty-cart">Nenhum ritual montado ainda.</p></div>
 
   <div class="field">
     <label for="custName">Nome completo</label>
@@ -363,6 +532,18 @@
     <label for="custPhone">Telefone / WhatsApp</label>
     <input type="tel" id="custPhone" placeholder="(61) 90000-0000">
   </div>
+  <div class="field">
+    <label for="custTime">Horário desejado</label>
+    <input type="text" id="custTime" placeholder="Ex: sábado às 15h">
+  </div>
+  <div class="field">
+    <label for="custLocation">Local</label>
+    <input type="text" id="custLocation" placeholder="Endereço ou ponto de referência">
+  </div>
+  <div class="field">
+    <label for="custNotes">Observações</label>
+    <textarea id="custNotes" placeholder="Alguma preferência ou observação?"></textarea>
+  </div>
 
   <div class="total-row">
     <span>Total</span>
@@ -370,73 +551,227 @@
   </div>
 
   <button class="checkout-btn" id="checkoutBtn" disabled>Pagar com InfinitePay</button>
-  <p class="checkout-note">Você será redirecionado para o checkout seguro da InfinitePay.</p>
+  <p class="checkout-note">Você será redirecionada(o) para o checkout seguro da InfinitePay.</p>
   <div id="statusMsg"></div>
 </div>
 
 <script>
-// ---------- Dados dos planos ----------
-const PLANS = {
-  costas: [
-    { id:'relaxing-base', name:'Relaxing Base', price:34.52, details:['1 – 20 min', 'Creme adicional (+R$ 2,56)'] },
-    { id:'relaxing-plus', name:'Relaxing Plus RMC', price:45.73, details:['20 – 45 min', 'Creme adicional (+R$ 2,56)'] },
-    { id:'true-spa', name:'True Spa', price:59.99, details:['1 hora (hora extra +R$ 3)', 'Creme Nívea (+R$ 6)'] },
-  ],
-  cabeca: [
-    { id:'cafune-care', name:'Cafuné Care', price:23.59, details:['10 – 20 min', 'Shampoo Dove ou anticaspa', 'Água quente ou morna · toalhinha'] },
-    { id:'calm-comfy', name:'Calm & Comfy', price:10.00, details:['Cafuné tradicional', 'Tempo livre — você decide'] },
-  ],
-  pe: [
-    { id:'neatly-feet', name:'Neatly Feet', price:34.56, details:['10 – 30 min', 'Limpeza e relaxamento', 'Creme Nívea'] },
-  ],
-  corpo: [
-    { id:'body-relax', name:'Body Relax', price:60.00, details:['Combina todos os cuidados', 'A experiência completa Lumenno'] },
-  ],
-};
+const ZONES = [
+  {
+    id:'corpo', label:'Corpo', icon:'🧖', hasIntensity:true,
+    tiers:[
+      { id:'corpo-basico', name:'Básico', priceMin:45, priceMax:60, durMin:30, durMax:45, discount:0,
+        features:['Óleo neutro','Ambiente calmo','Toalhas quentes'] },
+      { id:'corpo-pro', name:'Pro', priceMin:70, priceMax:90, durMin:45, durMax:60, discount:0.10,
+        features:['Óleo essencial à escolha','Música ambiente','Toalhas quentes'] },
+      { id:'corpo-promax', name:'Pro Max', priceMin:100, priceMax:130, durMin:60, durMax:75, discount:0.10,
+        features:['Pedras mornas','Alongamento leve','Chá pós-sessão'] },
+      { id:'corpo-elite', name:'Pro Max Elite', priceMin:150, priceMax:190, durMin:75, durMax:100, discount:0.10, elite:true,
+        features:['Sala privativa','Ritual completo com pedras quentes','Boas-vindas com chá especial'] },
+    ]
+  },
+  {
+    id:'cabeca', label:'Cabeça', icon:'💆', hasIntensity:false,
+    tiers:[
+      { id:'cabeca-basico', name:'Básico', priceMin:23.59, priceMax:30, durMin:10, durMax:20, discount:0,
+        features:['Shampoo Dove ou anticaspa','Água quente ou morna','Toalhinha'] },
+      { id:'cabeca-pro', name:'Pro', priceMin:38, priceMax:48, durMin:20, durMax:30, discount:0.10,
+        features:['Cafuné estendido','Óleo capilar nutritivo'] },
+      { id:'cabeca-promax', name:'Pro Max', priceMin:55, priceMax:68, durMin:30, durMax:40, discount:0.10,
+        features:['Massagem de couro cabeludo','Toalha aromática'] },
+      { id:'cabeca-elite', name:'Pro Max Elite', priceMin:75, priceMax:95, durMin:40, durMax:55, discount:0.10, elite:true,
+        features:['Ritual completo de cabeça e nuca','Óleo premium','Ambiente reservado'] },
+    ]
+  },
+  {
+    id:'costas', label:'Costas', icon:'🛁', hasIntensity:false,
+    tiers:[
+      { id:'costas-basico', name:'Básico', priceMin:34.52, priceMax:40, durMin:10, durMax:20, discount:0,
+        features:['Relaxing Base','Creme adicional disponível'] },
+      { id:'costas-pro', name:'Pro', priceMin:45.73, priceMax:55, durMin:20, durMax:45, discount:0.10,
+        features:['Relaxing Plus RMC','Creme adicional disponível'] },
+      { id:'costas-promax', name:'Pro Max', priceMin:59.99, priceMax:75, durMin:45, durMax:70, discount:0.10,
+        features:['True Spa','Creme Nívea incluso'] },
+      { id:'costas-elite', name:'Pro Max Elite', priceMin:85, priceMax:110, durMin:70, durMax:100, discount:0.10, elite:true,
+        features:['Sessão estendida','Pedras mornas nas costas','Creme Nívea incluso'] },
+    ]
+  },
+  {
+    id:'pes', label:'Pés', icon:'🦶', hasIntensity:false,
+    tiers:[
+      { id:'pes-basico', name:'Básico', priceMin:34.56, priceMax:42, durMin:10, durMax:30, discount:0,
+        features:['Neatly Feet','Limpeza e relaxamento','Creme Nívea'] },
+      { id:'pes-pro', name:'Pro', priceMin:48, priceMax:58, durMin:30, durMax:45, discount:0.10,
+        features:['Esfoliação leve','Creme Nívea'] },
+      { id:'pes-promax', name:'Pro Max', priceMin:65, priceMax:80, durMin:45, durMax:60, discount:0.10,
+        features:['Massagem plantar completa','Pedras mornas'] },
+      { id:'pes-elite', name:'Pro Max Elite', priceMin:88, priceMax:105, durMin:60, durMax:80, discount:0.10, elite:true,
+        features:['Ritual completo de pés e canelas','Creme premium','Chá pós-sessão'] },
+    ]
+  },
+];
+
+const CREME_PRICE = 8;
+const INTENSITY_MULT = { leve:0.9, media:1.0, intensa:1.15 };
 
 const money = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
-// ---------- Render dos cards ----------
-function renderZone(zoneKey, containerId){
-  const container = document.getElementById(containerId);
-  container.innerHTML = PLANS[zoneKey].map(plan => `
-    <div class="plan-card">
-      <h3>${plan.name}</h3>
-      <div class="plan-price">${money(plan.price)}</div>
-      <ul class="plan-details">
-        ${plan.details.map(d => `<li>${d}</li>`).join('')}
-      </ul>
-      <button class="plan-select" data-id="${plan.id}">Selecionar</button>
-    </div>
-  `).join('');
-}
-renderZone('costas','zona-costas');
-renderZone('cabeca','zona-cabeca');
-renderZone('pe','zona-pe');
-renderZone('corpo','zona-corpo');
+const tabsEl = document.getElementById('tabs');
+const panelsEl = document.getElementById('zonePanels');
 
-// ---------- Estado do carrinho ----------
-const ALL_PLANS = Object.values(PLANS).flat();
-let selected = [];
+ZONES.forEach((zone, i) => {
+  const tabBtn = document.createElement('button');
+  tabBtn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+  tabBtn.dataset.zone = zone.id;
+  tabBtn.innerHTML = `<span>${zone.icon}</span> ${zone.label}`;
+  tabBtn.addEventListener('click', () => switchZone(zone.id));
+  tabsEl.appendChild(tabBtn);
 
-function findPlan(id){ return ALL_PLANS.find(p => p.id === id); }
-
-document.querySelectorAll('.plan-select').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const id = btn.dataset.id;
-    const idx = selected.indexOf(id);
-    if (idx === -1){
-      selected.push(id);
-      btn.classList.add('selected');
-      btn.textContent = 'Selecionado ✓';
-    } else {
-      selected.splice(idx,1);
-      btn.classList.remove('selected');
-      btn.textContent = 'Selecionar';
-    }
-    renderCart();
-  });
+  const panel = document.createElement('div');
+  panel.className = 'zone-panel' + (i === 0 ? ' active' : '');
+  panel.id = `panel-${zone.id}`;
+  panel.innerHTML = `<div class="tier-grid">${zone.tiers.map(t => tierCardHTML(zone, t)).join('')}</div>`;
+  panelsEl.appendChild(panel);
 });
+
+function tierCardHTML(zone, tier){
+  return `
+    <div class="tier-card ${tier.elite ? 'elite' : ''}">
+      ${tier.elite ? '<span class="elite-badge">Elite</span>' : ''}
+      <div class="tier-name">${tier.name}</div>
+      <div class="tier-range">${tier.durMin}–${tier.durMax} min</div>
+      <div class="tier-price">
+        ${tier.discount > 0 ? `<span class="strike">${money(tier.priceMin)}</span>` : ''}
+        ${money(tier.discount > 0 ? tier.priceMin * (1 - tier.discount) : tier.priceMin)}+
+      </div>
+      <ul class="tier-features">${tier.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      <button class="tier-build-btn" data-zone="${zone.id}" data-tier="${tier.id}">Montar sessão</button>
+    </div>
+    <div class="builder" id="builder-${tier.id}" data-zone="${zone.id}" data-tier="${tier.id}"></div>
+  `;
+}
+
+function switchZone(zoneId){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.zone === zoneId));
+  document.querySelectorAll('.zone-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${zoneId}`));
+}
+
+function findZone(id){ return ZONES.find(z => z.id === id); }
+function findTier(zone, tierId){ return zone.tiers.find(t => t.id === tierId); }
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tier-build-btn');
+  if (!btn) return;
+
+  const zoneId = btn.dataset.zone;
+  const tierId = btn.dataset.tier;
+  const zone = findZone(zoneId);
+  const tier = findTier(zone, tierId);
+  const builderEl = document.getElementById(`builder-${tierId}`);
+  const isOpen = builderEl.classList.contains('open');
+
+  document.querySelectorAll('.builder.open').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.tier-build-btn.open').forEach(b => { b.classList.remove('open'); b.textContent = 'Montar sessão'; });
+
+  if (isOpen){ return; }
+
+  builderEl.classList.add('open');
+  btn.classList.add('open');
+  btn.textContent = 'Fechar';
+  renderBuilder(builderEl, zone, tier);
+});
+
+function renderBuilder(el, zone, tier){
+  el.innerHTML = `
+    <div class="builder-row">
+      <label>Duração</label>
+      <input type="range" class="duration-slider" min="${tier.durMin}" max="${tier.durMax}" value="${tier.durMin}" step="5">
+      <div class="duration-value">${tier.durMin} minutos</div>
+    </div>
+    ${zone.hasIntensity ? `
+    <div class="builder-row">
+      <label>Intensidade</label>
+      <div class="intensity-group">
+        <div class="intensity-opt selected" data-intensity="leve">Leve</div>
+        <div class="intensity-opt" data-intensity="media">Média</div>
+        <div class="intensity-opt" data-intensity="intensa">Intensa</div>
+      </div>
+    </div>` : ''}
+    <div class="builder-row toggle-row">
+      <label style="margin:0;">Creme aromático (+${money(CREME_PRICE)})</label>
+      <button class="toggle" data-creme="off"></button>
+    </div>
+    <div class="builder-total">
+      <span class="label">Total do ritual</span>
+      <span class="value builder-price">R$ 0,00</span>
+    </div>
+    <button class="builder-add-btn">Adicionar à sessão</button>
+  `;
+
+  const state = { intensity: 'media', creme: false };
+  const durationSlider = el.querySelector('.duration-slider');
+  const durationValue = el.querySelector('.duration-value');
+  const priceValue = el.querySelector('.builder-price');
+  const cremeToggle = el.querySelector('.toggle');
+  const intensityOpts = el.querySelectorAll('.intensity-opt');
+
+  function computePrice(){
+    const ratio = (durationSlider.value - tier.durMin) / (tier.durMax - tier.durMin || 1);
+    let base = tier.priceMin + ratio * (tier.priceMax - tier.priceMin);
+    if (zone.hasIntensity) base *= INTENSITY_MULT[state.intensity];
+    let discounted = base * (1 - tier.discount);
+    if (state.creme) discounted += CREME_PRICE;
+    return discounted;
+  }
+
+  function update(){
+    durationValue.textContent = `${durationSlider.value} minutos`;
+    priceValue.textContent = money(computePrice());
+  }
+
+  durationSlider.addEventListener('input', update);
+
+  intensityOpts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      intensityOpts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      state.intensity = opt.dataset.intensity;
+      update();
+    });
+  });
+
+  cremeToggle.addEventListener('click', () => {
+    state.creme = !state.creme;
+    cremeToggle.classList.toggle('on', state.creme);
+    update();
+  });
+
+  el.querySelector('.builder-add-btn').addEventListener('click', () => {
+    addToSession({
+      zoneLabel: zone.label,
+      tierName: tier.name,
+      duration: Number(durationSlider.value),
+      intensity: zone.hasIntensity ? state.intensity : null,
+      creme: state.creme,
+      price: computePrice(),
+    });
+  });
+
+  update();
+}
+
+let session = [];
+
+function addToSession(item){
+  session.push(item);
+  renderCart();
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function intensityLabel(i){
+  return { leve:'Leve', media:'Média', intensa:'Intensa' }[i] || '';
+}
 
 function renderCart(){
   const container = document.getElementById('selectedItems');
@@ -444,55 +779,56 @@ function renderCart(){
   const totalEl = document.getElementById('totalValue');
   const checkoutBtn = document.getElementById('checkoutBtn');
 
-  countEl.textContent = selected.length;
+  countEl.textContent = session.length;
 
-  if (selected.length === 0){
-    container.innerHTML = '<p class="empty-cart">Nenhum plano selecionado ainda.</p>';
+  if (session.length === 0){
+    container.innerHTML = '<p class="empty-cart">Nenhum ritual montado ainda.</p>';
     totalEl.textContent = money(0);
     checkoutBtn.disabled = true;
     return;
   }
 
-  container.innerHTML = selected.map(id => {
-    const p = findPlan(id);
-    return `
-      <div class="selected-item">
-        <span>${p.name} — ${money(p.price)}</span>
-        <button class="remove" data-id="${id}" aria-label="Remover">✕</button>
+  container.innerHTML = session.map((item, idx) => `
+    <div class="selected-item">
+      <div>
+        <div class="si-name">${item.zoneLabel} — ${item.tierName}</div>
+        <div class="si-meta">${item.duration} min${item.intensity ? ' · ' + intensityLabel(item.intensity) : ''}${item.creme ? ' · com creme' : ''} — ${money(item.price)}</div>
       </div>
-    `;
-  }).join('');
+      <button class="remove" data-idx="${idx}" aria-label="Remover">✕</button>
+    </div>
+  `).join('');
 
   container.querySelectorAll('.remove').forEach(btn => {
     btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      selected = selected.filter(s => s !== id);
-      document.querySelector(`.plan-select[data-id="${id}"]`).classList.remove('selected');
-      document.querySelector(`.plan-select[data-id="${id}"]`).textContent = 'Selecionar';
+      session.splice(Number(btn.dataset.idx), 1);
       renderCart();
     });
   });
 
-  const total = selected.reduce((sum,id) => sum + findPlan(id).price, 0);
+  const total = session.reduce((sum, i) => sum + i.price, 0);
   totalEl.textContent = money(total);
   checkoutBtn.disabled = false;
 }
 
-// ---------- Drawer ----------
 const drawer = document.getElementById('drawer');
 const overlay = document.getElementById('overlay');
-document.getElementById('openCart').addEventListener('click', () => {
-  drawer.classList.add('open');
-  overlay.classList.add('open');
-});
-function closeDrawer(){
-  drawer.classList.remove('open');
-  overlay.classList.remove('open');
-}
+function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+document.getElementById('openCart').addEventListener('click', openDrawer);
+document.getElementById('openReserva').addEventListener('click', openDrawer);
 document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
 
-// ---------- Checkout: chama a Supabase Edge Function ----------
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
 const SUPABASE_FUNCTION_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co/functions/v1/create-order';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1cGtpaHFxY3hsbWd5amdmcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1MzAxNDQsImV4cCI6MjA5OTEwNjE0NH0.34WLNmTV8tHHiIHskeTKpnecUhHEHQkmXN3JHaW-BWQ';
 
@@ -500,6 +836,9 @@ document.getElementById('checkoutBtn').addEventListener('click', async () => {
   const statusMsg = document.getElementById('statusMsg');
   const name = document.getElementById('custName').value.trim();
   const phone = document.getElementById('custPhone').value.trim();
+  const time = document.getElementById('custTime').value.trim();
+  const location = document.getElementById('custLocation').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
   const checkoutBtn = document.getElementById('checkoutBtn');
 
   statusMsg.textContent = '';
@@ -510,17 +849,20 @@ document.getElementById('checkoutBtn').addEventListener('click', async () => {
     statusMsg.classList.add('error');
     return;
   }
-  if (selected.length === 0){
-    statusMsg.textContent = 'Selecione ao menos um plano.';
+  if (session.length === 0){
+    statusMsg.textContent = 'Monte pelo menos um ritual.';
     statusMsg.classList.add('error');
     return;
   }
 
-  const items = selected.map(id => {
-    const p = findPlan(id);
-    return { id: p.id, name: p.name, price: p.price };
-  });
-  const total = items.reduce((sum,i) => sum + i.price, 0);
+  const items = session.map(item => ({
+    name: `${item.zoneLabel} — ${item.tierName}`,
+    duration: item.duration,
+    intensity: item.intensity,
+    creme: item.creme,
+    price: Math.round(item.price * 100) / 100,
+  }));
+  const total = items.reduce((sum, i) => sum + i.price, 0);
 
   checkoutBtn.disabled = true;
   checkoutBtn.textContent = 'Gerando checkout...';
@@ -533,7 +875,11 @@ document.getElementById('checkoutBtn').addEventListener('click', async () => {
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         'apikey': SUPABASE_ANON_KEY
       },
-      body: JSON.stringify({ customer: { name, phone }, items, total })
+      body: JSON.stringify({
+        customer: { name, phone, time, location, notes },
+        items,
+        total
+      })
     });
     const data = await res.json();
 
