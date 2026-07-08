@@ -38,6 +38,7 @@
   a{color:inherit;}
   .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
 
+  /* Header */
   header{
     position:sticky;top:0;z-index:50;
     backdrop-filter: blur(10px);
@@ -66,6 +67,7 @@
     display:flex;align-items:center;justify-content:center;padding:0 4px;
   }
 
+  /* Hero */
   .hero{
     position:relative;
     padding:110px 24px 90px;
@@ -122,6 +124,7 @@
   }
   .cta:hover{transform:translateY(-2px); box-shadow:0 8px 30px var(--glow-dim);}
 
+  /* Section headers by body zone */
   .zone{padding:70px 24px 20px;}
   .zone-head{
     display:flex;align-items:baseline;gap:14px;
@@ -196,6 +199,7 @@
     font-weight:700;
   }
 
+  /* Checkout drawer */
   .drawer-overlay{
     position:fixed;inset:0;
     background:rgba(0,0,0,0.55);
@@ -371,6 +375,7 @@
 </div>
 
 <script>
+// ---------- Dados dos planos ----------
 const PLANS = {
   costas: [
     { id:'relaxing-base', name:'Relaxing Base', price:34.52, details:['1 – 20 min', 'Creme adicional (+R$ 2,56)'] },
@@ -391,6 +396,7 @@ const PLANS = {
 
 const money = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 
+// ---------- Render dos cards ----------
 function renderZone(zoneKey, containerId){
   const container = document.getElementById(containerId);
   container.innerHTML = PLANS[zoneKey].map(plan => `
@@ -409,6 +415,7 @@ renderZone('cabeca','zona-cabeca');
 renderZone('pe','zona-pe');
 renderZone('corpo','zona-corpo');
 
+// ---------- Estado do carrinho ----------
 const ALL_PLANS = Object.values(PLANS).flat();
 let selected = [];
 
@@ -471,6 +478,7 @@ function renderCart(){
   checkoutBtn.disabled = false;
 }
 
+// ---------- Drawer ----------
 const drawer = document.getElementById('drawer');
 const overlay = document.getElementById('overlay');
 document.getElementById('openCart').addEventListener('click', () => {
@@ -484,8 +492,8 @@ function closeDrawer(){
 document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
 overlay.addEventListener('click', closeDrawer);
 
+// ---------- Checkout: chama a Supabase Edge Function ----------
 const SUPABASE_FUNCTION_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co/functions/v1/create-order';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1cGtpaHFxY3hsbWd5amdmcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1MzAxNDQsImV4cCI6MjA5OTEwNjE0NH0.34WLNmTV8tHHiIHskeTKpnecUhHEHQkmXN3JHaW-BWQ';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1cGtpaHFxY3hsbWd5amdmcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1MzAxNDQsImV4cCI6MjA5OTEwNjE0NH0.34WLNmTV8tHHiIHskeTKpnecUhHEHQkmXN3JHaW-BWQ';
 
 document.getElementById('checkoutBtn').addEventListener('click', async () => {
