@@ -62,6 +62,21 @@
   .pill:hover{background:var(--leaf-deep)}
   .pill .n{display:inline-block;min-width:22px;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--lume);color:var(--ink);font-size:13px;text-align:center}
 
+  /* ramos botânicos de fundo */
+  .botanical{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .botanical svg{position:absolute;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+  .botanical .bloom{stroke:var(--lume);stroke-width:1.6}
+  .open .sprig-a{left:-120px;bottom:-170px;width:540px;color:var(--leaf);opacity:.2;transform:rotate(16deg)}
+  .open .sprig-b{right:-60px;top:-90px;width:470px;color:var(--leaf-deep);opacity:.16;transform:scaleX(-1) rotate(12deg)}
+  #como-funciona{position:relative;overflow:hidden}
+  #como-funciona .wrap{position:relative}
+  #como-funciona .sprig-c{right:-70px;bottom:-190px;width:440px;color:var(--leaf);opacity:.13;transform:rotate(-10deg)}
+  @media (max-width:900px){
+    .open .sprig-a{width:340px;left:-110px;bottom:-110px}
+    .open .sprig-b{width:260px;right:-120px;top:-50px;opacity:.11}
+    #como-funciona .sprig-c{width:300px;right:-90px;bottom:-130px}
+  }
+
   /* abertura */
   .open{position:relative;overflow:hidden;padding:56px 0 72px}
   .open::before{content:"";position:absolute;right:-12%;top:-10%;width:760px;height:760px;border-radius:50%;
@@ -116,9 +131,9 @@
   /* carta */
   .block{padding:76px 0;scroll-margin-top:64px}
   .block.paper{background:var(--paper)}
-  .zone{margin-top:40px}
-  .zone h3{font-size:26px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+  #carta{background:#DCE7E0}
   .row{display:grid;grid-template-columns:170px 110px 150px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:0}
   .row .nm{font-weight:600}
   .row .pr{font-family:var(--display);font-weight:600;font-size:18px}
   .row .ft{color:var(--ink-soft);font-size:15px}
@@ -126,6 +141,42 @@
   .link{background:transparent;border:1px solid var(--line-strong);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600}
   .link:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .extras{margin-top:28px;color:var(--ink-soft);font-size:15px;max-width:70ch}
+
+  /* carta — sanfona */
+  #menu{margin-top:32px;border-top:1px solid var(--line-strong)}
+  .acc-zone{border-bottom:1px solid var(--line-strong)}
+  .acc-head{display:flex;align-items:center;gap:16px;width:100%;background:transparent;border:0;padding:22px 18px;text-align:left;color:inherit;font:inherit;transition:background .2s ease, color .2s ease}
+  .acc-head .nm{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.1}
+  .acc-head .meta{margin-left:auto;color:var(--ink-soft);font-size:15px;transition:color .2s ease}
+  .acc-head .caret{flex:none;width:18px;height:18px;margin-left:14px;transition:transform .25s ease}
+  .acc-head:hover{background:var(--leaf);color:#F6FAF7}
+  .acc-head:hover .meta{color:rgba(246,250,247,.78)}
+  .acc-zone.open .acc-head{background:var(--leaf-deep);color:#F6FAF7}
+  .acc-zone.open .acc-head .meta{color:rgba(246,250,247,.82)}
+  .acc-zone.open .acc-head .caret{transform:rotate(180deg)}
+  .acc-body{overflow:hidden;height:0;transition:height .3s ease}
+  .acc-body-in{padding:8px 18px 22px}
+  @media (prefers-reduced-motion:reduce){
+    .acc-head,.acc-head .meta,.acc-head .caret,.acc-body{transition:none}
+  }
+  @media (max-width:900px){
+    .acc-head{padding:18px 10px;flex-wrap:wrap}
+    .acc-head .nm{font-size:22px}
+    .acc-head .meta{width:100%;margin:4px 0 0}
+    .acc-head .caret{position:absolute;right:12px;top:24px;margin:0}
+    .acc-zone{position:relative}
+    .acc-body-in{padding:4px 10px 18px}
+  }
+
+  /* Como funciona — faixa em verde profundo */
+  #como-funciona{background:var(--leaf-deep);color:#F2F8F4}
+  #como-funciona h2{color:#fff}
+  #como-funciona .steps li{border-top-color:rgba(246,250,247,.35)}
+  #como-funciona .steps li::before{color:var(--lume)}
+  #como-funciona .steps h3{color:#fff}
+  #como-funciona .steps p{color:rgba(246,250,247,.78)}
+  #como-funciona .sprig-c{color:#F2F8F4;opacity:.1}
+  #como-funciona :focus-visible{outline-color:var(--lume)}
 
   /* passos */
   .steps{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;list-style:none;counter-reset:s}
@@ -356,6 +407,46 @@
 
 <main id="inicio">
   <section class="open">
+    <div class="botanical" aria-hidden="true">
+      <svg class="sprig-a" viewBox="0 0 200 320" aria-hidden="true">
+        <path d="M100 320 C100 240 100 170 100 52"/>
+        <path d="M100 100 C72 92 56 72 58 50 C84 58 97 78 100 100Z"/>
+        <path d="M100 100 C128 92 144 72 142 50 C116 58 103 78 100 100Z"/>
+        <path d="M100 152 C74 144 60 126 62 106 C86 114 98 132 100 152Z"/>
+        <path d="M100 152 C126 144 140 126 138 106 C114 114 102 132 100 152Z"/>
+        <path d="M100 204 C78 198 66 182 68 164 C90 172 99 188 100 204Z"/>
+        <path d="M100 204 C122 198 134 182 132 164 C110 172 101 188 100 204Z"/>
+        <path d="M100 252 C82 247 72 233 74 219 C93 226 99 240 100 252Z"/>
+        <path d="M100 252 C118 247 128 233 126 219 C107 226 101 240 100 252Z"/>
+        <g class="bloom">
+          <ellipse cx="100" cy="17" rx="6.5" ry="13"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(72 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(144 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(216 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(288 100 32)"/>
+          <circle cx="100" cy="32" r="4"/>
+        </g>
+      </svg>
+      <svg class="sprig-b" viewBox="0 0 200 320" aria-hidden="true">
+        <path d="M100 320 C100 240 100 170 100 52"/>
+        <path d="M100 100 C72 92 56 72 58 50 C84 58 97 78 100 100Z"/>
+        <path d="M100 100 C128 92 144 72 142 50 C116 58 103 78 100 100Z"/>
+        <path d="M100 152 C74 144 60 126 62 106 C86 114 98 132 100 152Z"/>
+        <path d="M100 152 C126 144 140 126 138 106 C114 114 102 132 100 152Z"/>
+        <path d="M100 204 C78 198 66 182 68 164 C90 172 99 188 100 204Z"/>
+        <path d="M100 204 C122 198 134 182 132 164 C110 172 101 188 100 204Z"/>
+        <path d="M100 252 C82 247 72 233 74 219 C93 226 99 240 100 252Z"/>
+        <path d="M100 252 C118 247 128 233 126 219 C107 226 101 240 100 252Z"/>
+        <g class="bloom">
+          <ellipse cx="100" cy="17" rx="6.5" ry="13"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(72 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(144 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(216 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(288 100 32)"/>
+          <circle cx="100" cy="32" r="4"/>
+        </g>
+      </svg>
+    </div>
     <div class="wrap open-grid">
       <div>
         <h1>Massagem do tamanho do seu dia.</h1>
@@ -435,6 +526,27 @@
   </section>
 
   <section class="block" id="como-funciona">
+    <div class="botanical" aria-hidden="true">
+      <svg class="sprig-c" viewBox="0 0 200 320" aria-hidden="true">
+        <path d="M100 320 C100 240 100 170 100 52"/>
+        <path d="M100 100 C72 92 56 72 58 50 C84 58 97 78 100 100Z"/>
+        <path d="M100 100 C128 92 144 72 142 50 C116 58 103 78 100 100Z"/>
+        <path d="M100 152 C74 144 60 126 62 106 C86 114 98 132 100 152Z"/>
+        <path d="M100 152 C126 144 140 126 138 106 C114 114 102 132 100 152Z"/>
+        <path d="M100 204 C78 198 66 182 68 164 C90 172 99 188 100 204Z"/>
+        <path d="M100 204 C122 198 134 182 132 164 C110 172 101 188 100 204Z"/>
+        <path d="M100 252 C82 247 72 233 74 219 C93 226 99 240 100 252Z"/>
+        <path d="M100 252 C118 247 128 233 126 219 C107 226 101 240 100 252Z"/>
+        <g class="bloom">
+          <ellipse cx="100" cy="17" rx="6.5" ry="13"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(72 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(144 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(216 100 32)"/>
+          <ellipse cx="100" cy="17" rx="6.5" ry="13" transform="rotate(288 100 32)"/>
+          <circle cx="100" cy="32" r="4"/>
+        </g>
+      </svg>
+    </div>
     <div class="wrap">
       <h2>Como funciona</h2>
       <ol class="steps">
@@ -856,24 +968,73 @@ $('items').addEventListener('click', e => {
   if (el) el.addEventListener('input', saveDraft);
 });
 
+function zoneFromPrice(z){
+  return Math.min(...z.tiers.map(t => listPrice(z, t, t.durMin)));
+}
 function renderMenu(){
-  $('menu').innerHTML = ZONES.map(z =>
-    `<div class="zone"><h3>${z.label}</h3>` + z.tiers.map(t =>
-      `<div class="row">
-        <span class="nm">${t.name}</span>
-        <span class="tm">${t.durMin} a ${t.durMax} min</span>
-        <span class="pr">${money(listPrice(z, t, t.durMin))} a ${money(listPrice(z, t, t.durMax))}</span>
-        <span class="ft">${t.features.join(', ')}</span>
-        <button type="button" class="link" data-z="${z.id}" data-t="${t.id}">Montar</button>
-      </div>`).join('') + '</div>').join('');
+  $('menu').innerHTML = ZONES.map(z => {
+    const bodyId = 'acc-' + z.id;
+    return `<div class="acc-zone" data-z="${z.id}">
+      <button type="button" class="acc-head" aria-expanded="false" aria-controls="${bodyId}">
+        <span class="nm">${z.label}</span>
+        <span class="meta">${z.tiers.length} níveis, a partir de ${money(zoneFromPrice(z))}</span>
+        <svg class="caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" id="${bodyId}" role="region" aria-hidden="true">
+        <div class="acc-body-in">
+          ${z.tiers.map(t => `<div class="row">
+            <span class="nm">${t.name}</span>
+            <span class="tm">${t.durMin} a ${t.durMax} min</span>
+            <span class="pr">${money(listPrice(z, t, t.durMin))} a ${money(listPrice(z, t, t.durMax))}</span>
+            <span class="ft">${t.features.join(', ')}</span>
+            <button type="button" class="link" data-z="${z.id}" data-t="${t.id}">Montar</button>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function closeAccZone(zoneEl){
+  const body = zoneEl.querySelector('.acc-body');
+  const head = zoneEl.querySelector('.acc-head');
+  if (!zoneEl.classList.contains('open')) return;
+  body.style.height = body.scrollHeight + 'px';
+  body.offsetHeight;
+  body.style.height = '0px';
+  zoneEl.classList.remove('open');
+  head.setAttribute('aria-expanded', 'false');
+  body.setAttribute('aria-hidden', 'true');
+}
+function openAccZone(zoneEl){
+  document.querySelectorAll('#menu .acc-zone.open').forEach(el => { if (el !== zoneEl) closeAccZone(el); });
+  const body = zoneEl.querySelector('.acc-body');
+  const head = zoneEl.querySelector('.acc-head');
+  zoneEl.classList.add('open');
+  head.setAttribute('aria-expanded', 'true');
+  body.setAttribute('aria-hidden', 'false');
+  body.style.height = body.scrollHeight + 'px';
+  const onEnd = ev => {
+    if (ev.propertyName !== 'height') return;
+    if (zoneEl.classList.contains('open')) body.style.height = 'auto';
+    body.removeEventListener('transitionend', onEnd);
+  };
+  body.addEventListener('transitionend', onEnd);
 }
 $('menu').addEventListener('click', e => {
-  const b = e.target.closest('.link'); if (!b) return;
-  st.zone = ZONES.find(z => z.id === b.dataset.z);
-  st.tier = st.zone.tiers.find(t => t.id === b.dataset.t);
-  st.dur = st.tier.durMin;
-  renderBuilder();
-  $('builder').scrollIntoView({ behavior:'smooth', block:'center' });
+  const link = e.target.closest('.link');
+  if (link){
+    st.zone = ZONES.find(z => z.id === link.dataset.z);
+    st.tier = st.zone.tiers.find(t => t.id === link.dataset.t);
+    st.dur = st.tier.durMin;
+    renderBuilder();
+    $('builder').scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  const head = e.target.closest('.acc-head');
+  if (!head) return;
+  const zoneEl = head.closest('.acc-zone');
+  if (zoneEl.classList.contains('open')) closeAccZone(zoneEl);
+  else openAccZone(zoneEl);
 });
 
 $('goSession').addEventListener('click', () => $('sessao').scrollIntoView({ behavior:'smooth' }));

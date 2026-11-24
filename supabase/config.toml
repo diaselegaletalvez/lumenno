@@ -1,2 +1,5 @@
 [functions.send-pix]
 verify_jwt = false
+
+[functions.cobranca]
+verify_jwt = false
