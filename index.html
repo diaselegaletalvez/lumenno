@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
 <style>
   :root{
     --mist:#E9F0EB;
@@ -170,6 +171,62 @@
   .pix-code{margin-top:10px;font-size:12px;color:var(--ink-soft);word-break:break-all;background:var(--mist);border-radius:8px;padding:8px;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   .pix-mail-note{margin-top:14px;font-size:13px;color:var(--ink-soft)}
 
+  /* topo: pílulas e chip */
+  .pill.alt{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
+  .pill.alt:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .pill.chip{background:var(--lume-soft);color:var(--ink)}
+  .pill.chip:hover{background:var(--lume)}
+  .top-actions{display:flex;gap:10px;align-items:center}
+  .top-actions .pill{padding:10px 16px;font-size:14px}
+  [hidden]{display:none!important}
+
+  /* modal de conta */
+  .modal{position:fixed;inset:0;background:rgba(20,48,42,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .modal.on{display:flex}
+  .modal-card{background:var(--paper);border-radius:22px;padding:28px;width:100%;max-width:440px;max-height:92vh;overflow:auto;position:relative;box-shadow:0 30px 70px -20px rgba(20,48,42,.4)}
+  .modal-card.lg{max-width:560px}
+  .modal-x{position:absolute;top:12px;right:12px;background:transparent;border:0;font-size:24px;line-height:1;color:var(--ink-soft);width:36px;height:36px;border-radius:999px}
+  .modal-x:hover{background:var(--mist);color:var(--ink)}
+  .view{display:none}
+  .view.on{display:block}
+  .view h3{font-family:var(--display);font-size:26px;letter-spacing:-.02em;margin-bottom:6px}
+  .view .sub{color:var(--ink-soft);margin-bottom:18px;font-size:15px;line-height:1.5}
+  .view .f{margin-bottom:12px}
+  .view .f label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .view .f input{width:100%;background:var(--mist);border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px}
+  .view .btn{width:100%;margin-top:4px;padding:14px}
+  .view .alt{margin-top:14px;text-align:center;font-size:14px;color:var(--ink-soft)}
+  .view .alt button,.view .alt a{color:var(--leaf-deep);text-decoration:underline;cursor:pointer;background:none;border:0;font:inherit;padding:0}
+  .view .alt button:hover,.view .alt a:hover{color:var(--ink)}
+  .view .err{color:#A3341A;font-size:14px;margin-top:10px;min-height:1.2em;line-height:1.4}
+  .view .ok{color:var(--leaf-deep);font-size:14px;margin-top:10px;min-height:1.2em}
+  .view .row-link{display:flex;justify-content:space-between;align-items:center;margin-top:-6px;margin-bottom:8px;font-size:13px}
+  .view .row-link button{background:none;border:0;color:var(--leaf-deep);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+
+  /* minha conta */
+  .acc .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
+  .acc .top-row h3{margin:0}
+  .acc .pts{font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:-.03em;line-height:1;color:var(--leaf-deep);margin-top:14px}
+  .acc .pts small{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-weight:400;margin-left:8px;letter-spacing:0}
+  .acc .prog{margin-top:14px}
+  .acc .prog .lbl{font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+  .acc .prog .lbl b{color:var(--ink);font-weight:600}
+  .acc .prog .bar{height:10px;background:var(--mist);border-radius:999px;overflow:hidden}
+  .acc .prog .fill{height:100%;background:var(--leaf);transition:width .3s;border-radius:999px}
+  .acc .sec{margin-top:24px}
+  .acc .sec h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;font-family:var(--body);font-weight:600}
+  .acc .ord{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .acc .ord:last-child{border-bottom:0}
+  .acc .ord .t{font-weight:600;color:var(--ink)}
+  .acc .ord .d{font-size:13px;color:var(--ink-soft);grid-column:1}
+  .acc .ord .v{font-family:var(--display);font-weight:600;font-size:17px;text-align:right}
+  .acc .ord .s{font-size:12px;text-align:right;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em}
+  .acc .ord .s.pago,.acc .ord .s.feita{color:var(--leaf-deep)}
+  .acc .ord .s.cancelado{color:#A3341A}
+  .acc .empty-ord{color:var(--ink-soft);padding:6px 0 0;font-size:14px}
+  .acc .logout{margin-top:24px;background:transparent;border:1px solid var(--line-strong);color:var(--ink);width:100%;border-radius:999px;padding:12px;font-weight:600}
+  .acc .logout:hover{background:var(--mist)}
+
   footer{background:var(--ink);color:#DCE7E1;padding:40px 0}
   .foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
   .foot .brand{color:#fff}
@@ -223,7 +280,11 @@
       <a href="#carta">Carta de rituais</a>
       <a href="#como-funciona">Como funciona</a>
     </nav>
-    <button class="pill" id="goSession">Sua sessão <span class="n" id="count">0</span></button>
+    <div class="top-actions">
+      <button class="pill alt" id="authBtn" hidden>Entrar</button>
+      <button class="pill chip" id="meBtn" hidden><span id="meName"></span> · <span id="mePts">0</span> pts</button>
+      <button class="pill" id="goSession">Sua sessão <span class="n" id="count">0</span></button>
+    </div>
   </div>
 </header>
 
@@ -329,9 +390,11 @@
         </div>
 
         <form class="form" id="form" novalidate>
-          <div class="f"><label for="fName">Nome completo</label><input id="fName" type="text" autocomplete="name"></div>
-          <div class="f"><label for="fEmail">E-mail</label><input id="fEmail" type="email" autocomplete="email" placeholder="voce@exemplo.com"></div>
-          <div class="f"><label for="fPhone">Telefone ou WhatsApp</label><input id="fPhone" type="tel" autocomplete="tel" placeholder="(61) 90000-0000"></div>
+          <div id="guestFields">
+            <div class="f"><label for="fName">Nome completo</label><input id="fName" type="text" autocomplete="name"></div>
+            <div class="f"><label for="fEmail">E-mail</label><input id="fEmail" type="email" autocomplete="email" placeholder="voce@exemplo.com"></div>
+            <div class="f"><label for="fPhone">Telefone ou WhatsApp</label><input id="fPhone" type="tel" autocomplete="tel" placeholder="(61) 90000-0000"></div>
+          </div>
           <div class="f"><label for="fTime">Horário desejado</label><input id="fTime" type="text" placeholder="Sábado às 15h"></div>
           <div class="f"><label for="fPlace">Local <span class="opt">(opcional)</span></label><input id="fPlace" type="text" placeholder="Endereço ou ponto de referência"></div>
           <div class="f"><label for="fNotes">Observações <span class="opt">(opcional)</span></label><textarea id="fNotes"></textarea></div>
@@ -360,6 +423,93 @@
     </div>
   </section>
 </main>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="modal-card" id="authCard">
+    <button class="modal-x" id="authX" aria-label="Fechar">×</button>
+
+    <!-- Entrar -->
+    <div class="view" id="viewLogin">
+      <h3 id="viewLoginTitle">Entrar</h3>
+      <p class="sub">Entre para confirmar seu orçamento e acompanhar seus rituais.</p>
+      <form id="loginForm" novalidate>
+        <div class="f"><label for="liEmail">E-mail</label><input id="liEmail" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="liPass">Senha</label><input id="liPass" type="password" autocomplete="current-password" required></div>
+        <div class="row-link"><span></span><button type="button" id="goForgot">Esqueci minha senha</button></div>
+        <button class="btn" type="submit" id="liBtn">Entrar</button>
+        <p class="err" id="liErr" role="alert"></p>
+      </form>
+      <p class="alt">Primeira vez? <button type="button" id="goSignup">Criar uma conta</button></p>
+    </div>
+
+    <!-- Criar conta -->
+    <div class="view" id="viewSignup">
+      <h3>Criar conta</h3>
+      <p class="sub">Você ganha 200 pontos de boas-vindas.</p>
+      <form id="signupForm" novalidate>
+        <div class="f"><label for="suName">Nome completo</label><input id="suName" type="text" autocomplete="name" required></div>
+        <div class="f"><label for="suEmail">E-mail</label><input id="suEmail" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="suPhone">Telefone ou WhatsApp</label><input id="suPhone" type="tel" autocomplete="tel" required></div>
+        <div class="f"><label for="suPass">Senha</label><input id="suPass" type="password" autocomplete="new-password" minlength="6" required></div>
+        <div class="f"><label for="suPass2">Confirmar senha</label><input id="suPass2" type="password" autocomplete="new-password" minlength="6" required></div>
+        <button class="btn" type="submit" id="suBtn">Criar conta</button>
+        <p class="err" id="suErr" role="alert"></p>
+      </form>
+      <p class="alt">Já tem conta? <button type="button" id="goLogin">Entrar</button></p>
+    </div>
+
+    <!-- Confirme seu e-mail -->
+    <div class="view" id="viewVerify">
+      <h3>Confirme seu e-mail</h3>
+      <p class="sub">Enviamos um e-mail de confirmação para <b id="vfEmail"></b>. Clique no botão do e-mail para ativar sua conta.</p>
+      <button class="btn" type="button" id="vfResend">Reenviar e-mail</button>
+      <p class="ok" id="vfMsg"></p>
+      <p class="alt"><button type="button" id="vfBack">Voltar para entrar</button></p>
+    </div>
+
+    <!-- Esqueci senha -->
+    <div class="view" id="viewForgot">
+      <h3>Esqueci minha senha</h3>
+      <p class="sub">Vamos enviar um link para você criar uma senha nova.</p>
+      <form id="forgotForm" novalidate>
+        <div class="f"><label for="fgEmail">E-mail</label><input id="fgEmail" type="email" autocomplete="email" required></div>
+        <button class="btn" type="submit" id="fgBtn">Enviar link</button>
+        <p class="err" id="fgErr" role="alert"></p>
+        <p class="ok" id="fgMsg"></p>
+      </form>
+      <p class="alt"><button type="button" id="fgBack">Voltar para entrar</button></p>
+    </div>
+
+    <!-- Nova senha -->
+    <div class="view" id="viewReset">
+      <h3>Criar senha nova</h3>
+      <p class="sub">Escolha uma senha nova para sua conta.</p>
+      <form id="resetForm" novalidate>
+        <div class="f"><label for="rsPass">Nova senha</label><input id="rsPass" type="password" autocomplete="new-password" minlength="6" required></div>
+        <div class="f"><label for="rsPass2">Confirmar senha</label><input id="rsPass2" type="password" autocomplete="new-password" minlength="6" required></div>
+        <button class="btn" type="submit" id="rsBtn">Salvar senha</button>
+        <p class="err" id="rsErr" role="alert"></p>
+      </form>
+    </div>
+
+    <!-- Minha conta -->
+    <div class="view acc" id="viewAcc">
+      <div class="top-row">
+        <div>
+          <h3>Minha conta</h3>
+          <p style="color:var(--ink-soft);font-size:14px;margin-top:2px" id="accWho"></p>
+        </div>
+      </div>
+      <div class="pts"><span id="accPts">0</span><small>pontos</small></div>
+      <div class="prog" id="accProg"></div>
+      <div class="sec">
+        <h4>Histórico de pedidos</h4>
+        <div id="accOrders"><p class="empty-ord">Você ainda não fez nenhum pedido.</p></div>
+      </div>
+      <button type="button" class="logout" id="accLogout">Sair</button>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -404,7 +554,24 @@ const EXPRESS_MIN = 10;
 const INTENSITY_MULT = { leve:0.9, media:1.0, intensa:1.15 };
 const INTENSITY_LABEL = { leve:'leve', media:'média', intensa:'intensa' };
 
-const SEND_PIX_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co/functions/v1/send-pix';
+const SUPABASE_URL = 'https://wupkihqqcxlmgyjgfqwq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_s6l1FmUBwBsCAMezsVnl_w_LZzdbayF';
+const SEND_PIX_URL = SUPABASE_URL + '/functions/v1/send-pix';
+const REDIRECT_URL = 'https://lumenno.weblar.app.br';
+
+const POINTS_PER_REAL = 10;
+const REWARDS = [
+  { name: 'Cabeça Básico', points: 2000 },
+  { name: 'Costas Básico', points: 3000 },
+  { name: 'Pés Básico',    points: 3000 },
+  { name: 'Corpo Básico',  points: 4000 },
+];
+const STATUS_LABEL = {
+  aguardando_pix: 'Aguardando Pix',
+  pago: 'Pago',
+  feita: 'Feita',
+  cancelado: 'Cancelado',
+};
 
 const $ = id => document.getElementById(id);
 const money = v => 'R$ ' + v.toFixed(2).replace('.', ',');
@@ -489,6 +656,7 @@ $('add').addEventListener('click', () => {
   });
   $('added').textContent = `${st.zone.label} ${st.tier.name} entrou na sua sessão.`;
   renderSession();
+  saveDraft();
 });
 
 function sessionTotals(){
@@ -524,7 +692,11 @@ function renderSession(){
 }
 $('items').addEventListener('click', e => {
   const b = e.target.closest('.rm'); if (!b) return;
-  session.splice(Number(b.dataset.n), 1); renderSession();
+  session.splice(Number(b.dataset.n), 1); renderSession(); saveDraft();
+});
+['fTime','fPlace','fNotes'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', saveDraft);
 });
 
 function renderMenu(){
@@ -551,14 +723,21 @@ $('goSession').addEventListener('click', () => $('sessao').scrollIntoView({ beha
 
 $('form').addEventListener('submit', async e => {
   e.preventDefault();
-  const name = $('fName').value.trim(), email = $('fEmail').value.trim();
-  const phone = $('fPhone').value.trim(), time = $('fTime').value.trim();
+  const time = $('fTime').value.trim();
   const location = $('fPlace').value.trim(), notes = $('fNotes').value.trim();
   const btn = $('confirm'); const errEl = $('err');
-  if (!session.length){ errEl.textContent = 'Adicione pelo menos um ritual à sessão.'; return; }
-  if (!name || !phone || !time){ errEl.textContent = 'Preencha nome, telefone e horário desejado.'; return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errEl.textContent = 'Confira o e-mail: é para ele que o Pix vai.'; return; }
   errEl.textContent = '';
+
+  if (!session.length){ errEl.textContent = 'Adicione pelo menos um ritual à sessão.'; return; }
+  if (!time){ errEl.textContent = 'Preencha o horário desejado.'; return; }
+
+  saveDraft();
+
+  if (!currentUser){
+    pendingResume = true;
+    openAuth('login');
+    return;
+  }
 
   const items = session.map(i => ({
     zoneId: i.zoneId, tierId: i.tierId,
@@ -570,16 +749,23 @@ $('form').addEventListener('submit', async e => {
   btn.disabled = true; btn.textContent = 'Enviando...';
 
   try {
+    const { data: { session: sbSession } } = await sb.auth.getSession();
+    if (!sbSession) throw new Error('Sua sessão expirou. Entre de novo.');
     const res = await fetch(SEND_PIX_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customer: { name, email, phone, time, location, notes }, items }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sbSession.access_token,
+        'apikey': SUPABASE_KEY,
+      },
+      body: JSON.stringify({ customer: { time, location, notes }, items }),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || !data.ok || !data.pix_code){
       throw new Error(data.error || 'Não conseguimos gerar o Pix agora. Tente de novo em instantes ou chame o Gabriel.');
     }
-    showDone({ email, time, total: data.total, pixCode: data.pix_code });
+    showDone({ email: currentUser.email, time, total: data.total, pixCode: data.pix_code });
+    clearDraft();
   } catch (err) {
     errEl.textContent = err.message || 'Erro ao enviar. Tente de novo em instantes.';
     btn.disabled = false; btn.textContent = originalLabel;
@@ -624,7 +810,341 @@ $('again').addEventListener('click', () => {
   $('inicio').scrollIntoView({ behavior:'smooth' });
 });
 
+// ============================================================
+// Rascunho local — mantém rituais e campos entre visitas
+// ============================================================
+function saveDraft(){
+  try {
+    const draft = {
+      session,
+      form: {
+        time: $('fTime').value,
+        location: $('fPlace').value,
+        notes: $('fNotes').value,
+      },
+    };
+    localStorage.setItem('lumenno.draft', JSON.stringify(draft));
+  } catch {}
+}
+function loadDraft(){
+  try {
+    const raw = localStorage.getItem('lumenno.draft');
+    if (!raw) return;
+    const d = JSON.parse(raw) || {};
+    if (Array.isArray(d.session)) session = d.session;
+    if (d.form){
+      if (d.form.time) $('fTime').value = d.form.time;
+      if (d.form.location) $('fPlace').value = d.form.location;
+      if (d.form.notes) $('fNotes').value = d.form.notes;
+    }
+  } catch {}
+}
+function clearDraft(){ try { localStorage.removeItem('lumenno.draft'); } catch {} }
+
+// ============================================================
+// Supabase, autenticação e Minha conta
+// ============================================================
+let sb = null;
+let currentUser = null;
+let currentPoints = 0;
+let pendingResume = false;
+
+function initSupabase(){
+  if (!window.supabase) { setTimeout(initSupabase, 60); return; }
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit' },
+  });
+
+  sb.auth.onAuthStateChange(async (event, sess) => {
+    if (event === 'PASSWORD_RECOVERY'){
+      currentUser = sess?.user ?? null;
+      openAuth('reset');
+      return;
+    }
+    const wasLoggedOut = !currentUser;
+    currentUser = sess?.user ?? null;
+    await refreshPoints();
+    renderTopBar();
+    renderSessionForm();
+    if (event === 'SIGNED_IN' && (pendingResume || wasLoggedOut)){
+      pendingResume = false;
+      closeAuth();
+      if (session.length) {
+        setTimeout(() => $('sessao').scrollIntoView({ behavior:'smooth' }), 120);
+      }
+    }
+    if (event === 'SIGNED_OUT'){
+      renderTopBar(); renderSessionForm();
+    }
+  });
+
+  sb.auth.getSession().then(async ({ data }) => {
+    currentUser = data.session?.user ?? null;
+    await refreshPoints();
+    renderTopBar();
+    renderSessionForm();
+  });
+}
+
+async function refreshPoints(){
+  if (!sb || !currentUser) { currentPoints = 0; return; }
+  const { data, error } = await sb.rpc('my_points');
+  if (!error) currentPoints = Number(data) || 0;
+}
+
+function firstName(u){
+  const n = (u?.user_metadata?.name || '').trim();
+  return n.split(/\s+/)[0] || 'Você';
+}
+
+function renderTopBar(){
+  if (currentUser){
+    $('authBtn').hidden = true;
+    $('meBtn').hidden = false;
+    $('meName').textContent = firstName(currentUser);
+    $('mePts').textContent = currentPoints.toLocaleString('pt-BR');
+  } else {
+    $('authBtn').hidden = false;
+    $('meBtn').hidden = true;
+  }
+}
+
+function renderSessionForm(){
+  const guest = $('guestFields');
+  if (!guest) return;
+  guest.style.display = currentUser ? 'none' : '';
+  const btn = $('confirm');
+  if (currentUser) btn.textContent = 'Confirmar orçamento';
+  else btn.textContent = 'Entrar e confirmar';
+}
+
+function prettyAuthError(msg){
+  if (!msg) return 'Erro inesperado. Tente de novo.';
+  const m = String(msg).toLowerCase();
+  if (m.includes('already registered') || m.includes('already been registered') || m.includes('user already')) return 'Este e-mail já está cadastrado. Entre com sua senha.';
+  if (m.includes('invalid login credentials') || m.includes('invalid_credentials')) return 'E-mail ou senha incorretos.';
+  if (m.includes('email not confirmed')) return '__UNCONFIRMED__';
+  if (m.includes('password') && (m.includes('short') || m.includes('6') || m.includes('weak'))) return 'A senha precisa ter no mínimo 6 caracteres.';
+  if (m.includes('rate limit') || m.includes('too many')) return 'Muitas tentativas. Espere um minuto e tente de novo.';
+  if (m.includes('invalid email')) return 'E-mail inválido.';
+  if (m.includes('for security purposes')) return 'Aguarde alguns segundos antes de tentar de novo.';
+  return msg;
+}
+
+// ------- Modal ---------
+function openAuth(view){
+  showView(view || 'login');
+  $('authModal').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuth(){
+  $('authModal').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function showView(name){
+  ['viewLogin','viewSignup','viewVerify','viewForgot','viewReset','viewAcc'].forEach(id => {
+    $(id).classList.toggle('on', id === 'view' + name.charAt(0).toUpperCase() + name.slice(1));
+  });
+  ['liErr','suErr','fgErr','fgMsg','rsErr','vfMsg'].forEach(id => { const el = $(id); if (el) el.textContent = ''; });
+  if (name === 'acc') renderAccount();
+}
+
+$('authBtn').addEventListener('click', () => openAuth('login'));
+$('meBtn').addEventListener('click', () => openAuth('acc'));
+$('authX').addEventListener('click', closeAuth);
+$('authModal').addEventListener('click', e => { if (e.target.id === 'authModal') closeAuth(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('authModal').classList.contains('on')) closeAuth(); });
+
+$('goSignup').addEventListener('click', () => showView('signup'));
+$('goLogin').addEventListener('click', () => showView('login'));
+$('goForgot').addEventListener('click', () => showView('forgot'));
+$('vfBack').addEventListener('click', () => showView('login'));
+$('fgBack').addEventListener('click', () => showView('login'));
+
+// ------- Entrar ---------
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = $('liEmail').value.trim();
+  const password = $('liPass').value;
+  const errEl = $('liErr'); const btn = $('liBtn');
+  errEl.textContent = '';
+  if (!email || !password){ errEl.textContent = 'Preencha e-mail e senha.'; return; }
+  btn.disabled = true; btn.textContent = 'Entrando...';
+  try {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error){
+      const pretty = prettyAuthError(error.message);
+      if (pretty === '__UNCONFIRMED__'){
+        $('vfEmail').textContent = email;
+        showView('verify');
+      } else {
+        errEl.textContent = pretty;
+      }
+    }
+  } catch (err) {
+    errEl.textContent = prettyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+});
+
+// ------- Criar conta ---------
+$('signupForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('suName').value.trim();
+  const email = $('suEmail').value.trim();
+  const phone = $('suPhone').value.trim();
+  const password = $('suPass').value;
+  const password2 = $('suPass2').value;
+  const errEl = $('suErr'); const btn = $('suBtn');
+  errEl.textContent = '';
+  if (!name || !email || !phone){ errEl.textContent = 'Preencha nome, e-mail e telefone.'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errEl.textContent = 'E-mail inválido.'; return; }
+  if (password.length < 6){ errEl.textContent = 'A senha precisa ter no mínimo 6 caracteres.'; return; }
+  if (password !== password2){ errEl.textContent = 'As senhas não batem.'; return; }
+
+  btn.disabled = true; btn.textContent = 'Criando...';
+  try {
+    const { data, error } = await sb.auth.signUp({
+      email, password,
+      options: { data: { name, phone }, emailRedirectTo: REDIRECT_URL },
+    });
+    if (error) throw new Error(error.message);
+    if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0){
+      throw new Error('Este e-mail já está cadastrado. Entre com sua senha.');
+    }
+    pendingResume = true;
+    $('vfEmail').textContent = email;
+    showView('verify');
+  } catch (err) {
+    errEl.textContent = prettyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Criar conta';
+  }
+});
+
+// ------- Reenviar e-mail de confirmação ---------
+$('vfResend').addEventListener('click', async () => {
+  const email = $('vfEmail').textContent.trim();
+  if (!email) return;
+  const btn = $('vfResend'); const msg = $('vfMsg');
+  msg.textContent = '';
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    const { error } = await sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: REDIRECT_URL } });
+    if (error) throw new Error(error.message);
+    msg.textContent = 'Enviamos de novo. Veja também a caixa de spam.';
+  } catch (err) {
+    msg.textContent = prettyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Reenviar e-mail';
+  }
+});
+
+// ------- Esqueci senha ---------
+$('forgotForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = $('fgEmail').value.trim();
+  const errEl = $('fgErr'); const msgEl = $('fgMsg'); const btn = $('fgBtn');
+  errEl.textContent = ''; msgEl.textContent = '';
+  if (!email){ errEl.textContent = 'Informe seu e-mail.'; return; }
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: REDIRECT_URL });
+    if (error) throw new Error(error.message);
+    msgEl.textContent = 'Pronto. Olhe seu e-mail para criar a senha nova.';
+  } catch (err) {
+    errEl.textContent = prettyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Enviar link';
+  }
+});
+
+// ------- Nova senha ---------
+$('resetForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const p1 = $('rsPass').value;
+  const p2 = $('rsPass2').value;
+  const errEl = $('rsErr'); const btn = $('rsBtn');
+  errEl.textContent = '';
+  if (p1.length < 6){ errEl.textContent = 'A senha precisa ter no mínimo 6 caracteres.'; return; }
+  if (p1 !== p2){ errEl.textContent = 'As senhas não batem.'; return; }
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  try {
+    const { error } = await sb.auth.updateUser({ password: p1 });
+    if (error) throw new Error(error.message);
+    closeAuth();
+  } catch (err) {
+    errEl.textContent = prettyAuthError(err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Salvar senha';
+  }
+});
+
+// ------- Minha conta ---------
+async function renderAccount(){
+  if (!currentUser) return;
+  await refreshPoints();
+  renderTopBar();
+  $('accWho').textContent = currentUser.email || '';
+  $('accPts').textContent = currentPoints.toLocaleString('pt-BR');
+  $('accProg').innerHTML = progressBlock(currentPoints);
+
+  const orders = await loadOrders();
+  if (!orders.length){
+    $('accOrders').innerHTML = '<p class="empty-ord">Você ainda não fez nenhum pedido.</p>';
+    return;
+  }
+  $('accOrders').innerHTML = orders.map(o => {
+    const dt = new Date(o.created_at);
+    const d = dt.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' });
+    const h = dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+    const itemsTxt = Array.isArray(o.items)
+      ? o.items.map(i => `${i.zoneLabel || i.zoneId} ${i.tierName || ''}`.trim()).join(' · ')
+      : '';
+    const status = STATUS_LABEL[o.status] || o.status || '';
+    const cls = (o.status || '').toLowerCase();
+    return `<div class="ord">
+      <span class="t">${itemsTxt || 'Pedido'}</span>
+      <span class="v">${money(Number(o.total))}</span>
+      <span class="d">${d} às ${h}</span>
+      <span class="s ${cls}">${status}</span>
+    </div>`;
+  }).join('');
+}
+
+function progressBlock(pts){
+  const next = REWARDS.filter(r => r.points > pts).sort((a,b) => a.points - b.points)[0];
+  if (!next){
+    return `<div class="lbl">Você já tem pontos para todos os prêmios disponíveis.</div>
+      <div class="bar"><div class="fill" style="width:100%"></div></div>`;
+  }
+  const falta = next.points - pts;
+  const pct = Math.max(0, Math.min(100, Math.round((pts / next.points) * 100)));
+  return `<div class="lbl">Faltam <b>${falta.toLocaleString('pt-BR')}</b> pontos para um <b>${next.name}</b>.</div>
+    <div class="bar"><div class="fill" style="width:${pct}%"></div></div>`;
+}
+
+async function loadOrders(){
+  if (!sb || !currentUser) return [];
+  const { data, error } = await sb
+    .from('orders')
+    .select('id, items, total, status, created_at')
+    .order('created_at', { ascending: false })
+    .limit(30);
+  if (error) return [];
+  return data || [];
+}
+
+$('accLogout').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  closeAuth();
+});
+
+// ------- Init ---------
+loadDraft();
 renderBuilder(); renderMenu(); renderSession();
+initSupabase();
 </script>
 </body>
 </html>

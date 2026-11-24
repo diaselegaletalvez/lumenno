@@ -1,5 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import QRCode from "npm:qrcode@1.5.3";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const ALLOWED_ORIGIN = "https://lumenno.weblar.app.br";
 const ADMIN_EMAIL = "gd665742@gmail.com";
@@ -474,21 +475,57 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders });
   if (req.method !== "POST") return json(405, { ok: false, error: "Método não permitido." });
 
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+  if (!supabaseUrl || !serviceKey || !anonKey) {
+    return json(500, { ok: false, error: "Supabase não configurado no servidor." });
+  }
+
+  const authHeader = req.headers.get("Authorization") ?? "";
+  const token = authHeader.toLowerCase().startsWith("bearer ")
+    ? authHeader.slice(7).trim()
+    : "";
+  if (!token) {
+    return json(401, { ok: false, error: "Entre na sua conta para confirmar o orçamento." });
+  }
+
+  const admin = createClient(supabaseUrl, serviceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  const { data: userData, error: userErr } = await admin.auth.getUser(token);
+  if (userErr || !userData?.user) {
+    return json(401, { ok: false, error: "Sua sessão expirou. Entre de novo." });
+  }
+  const user = userData.user;
+
+  const { data: profile, error: profileErr } = await admin
+    .from("profiles")
+    .select("name, phone")
+    .eq("id", user.id)
+    .single();
+  if (profileErr || !profile) {
+    return json(500, { ok: false, error: "Não encontramos seu cadastro. Tente sair e entrar de novo." });
+  }
+
+  const name = String(profile.name ?? "").trim();
+  const phone = String(profile.phone ?? "").trim();
+  const email = String(user.email ?? "").trim();
+
   let body: any;
   try { body = await req.json(); } catch { return json(400, { ok: false, error: "JSON inválido." }); }
 
   const customer = body?.customer ?? {};
   const itemsIn: any[] = Array.isArray(body?.items) ? body.items : [];
 
-  const name = String(customer.name ?? "").trim();
-  const email = String(customer.email ?? "").trim();
-  const phone = String(customer.phone ?? "").trim();
   const time = String(customer.time ?? "").trim();
   const location = String(customer.location ?? "").trim();
   const notes = String(customer.notes ?? "").trim();
 
-  if (!name || !phone || !time) return json(400, { ok: false, error: "Preencha nome, telefone e horário." });
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: "E-mail inválido." });
+  if (!name || !phone) return json(400, { ok: false, error: "Complete nome e telefone na sua conta antes de confirmar." });
+  if (!time) return json(400, { ok: false, error: "Preencha o horário desejado." });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: "E-mail inválido na sua conta." });
   if (!itemsIn.length) return json(400, { ok: false, error: "Nenhum ritual na sessão." });
   if (itemsIn.length > 20) return json(400, { ok: false, error: "Sessão muito grande." });
 
@@ -542,6 +579,28 @@ Deno.serve(async (req) => {
   const qrPng: Uint8Array = await QRCode.toBuffer(pixCode, { type: "png", margin: 1, width: 440 });
   const qrBase64 = uint8ToBase64(qrPng);
 
+  const { data: orderRow, error: orderErr } = await admin
+    .from("orders")
+    .insert({
+      user_id: user.id,
+      items,
+      subtotal: sub,
+      express_fee: fee,
+      total,
+      customer_time: time,
+      customer_location: location,
+      customer_notes: notes,
+      pix_txid: txid,
+      status: "aguardando_pix",
+    })
+    .select("id")
+    .single();
+  if (orderErr || !orderRow) {
+    console.error("Erro ao gravar pedido:", orderErr);
+    return json(500, { ok: false, error: "Não conseguimos registrar o pedido agora. Tente de novo em instantes." });
+  }
+  const orderId = orderRow.id as string;
+
   try {
     await sendEmail({
       from: FROM,
@@ -575,5 +634,5 @@ Deno.serve(async (req) => {
     console.error("Erro ao enviar e-mail do admin:", err);
   }
 
-  return json(200, { ok: true, total, pix_code: pixCode });
+  return json(200, { ok: true, total, pix_code: pixCode, order_id: orderId });
 });
