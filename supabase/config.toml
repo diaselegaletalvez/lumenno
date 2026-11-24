@@ -1,8 +1,2 @@
-[functions.create-order]
-verify_jwt = false
-
-[functions.infinitepay-webhook]
-verify_jwt = false
-
-[functions.admin-orders]
+[functions.send-pix]
 verify_jwt = false
