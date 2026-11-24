@@ -203,29 +203,95 @@
   .view .row-link{display:flex;justify-content:space-between;align-items:center;margin-top:-6px;margin-bottom:8px;font-size:13px}
   .view .row-link button{background:none;border:0;color:var(--leaf-deep);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
 
-  /* minha conta */
-  .acc .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
-  .acc .top-row h3{margin:0}
-  .acc .pts{font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:-.03em;line-height:1;color:var(--leaf-deep);margin-top:14px}
-  .acc .pts small{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-weight:400;margin-left:8px;letter-spacing:0}
-  .acc .prog{margin-top:14px}
-  .acc .prog .lbl{font-size:14px;color:var(--ink-soft);margin-bottom:8px}
-  .acc .prog .lbl b{color:var(--ink);font-weight:600}
-  .acc .prog .bar{height:10px;background:var(--mist);border-radius:999px;overflow:hidden}
-  .acc .prog .fill{height:100%;background:var(--leaf);transition:width .3s;border-radius:999px}
-  .acc .sec{margin-top:24px}
-  .acc .sec h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;font-family:var(--body);font-weight:600}
-  .acc .ord{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
-  .acc .ord:last-child{border-bottom:0}
-  .acc .ord .t{font-weight:600;color:var(--ink)}
-  .acc .ord .d{font-size:13px;color:var(--ink-soft);grid-column:1}
-  .acc .ord .v{font-family:var(--display);font-weight:600;font-size:17px;text-align:right}
-  .acc .ord .s{font-size:12px;text-align:right;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em}
-  .acc .ord .s.pago,.acc .ord .s.feita{color:var(--leaf-deep)}
-  .acc .ord .s.cancelado{color:#A3341A}
-  .acc .empty-ord{color:var(--ink-soft);padding:6px 0 0;font-size:14px}
-  .acc .logout{margin-top:24px;background:transparent;border:1px solid var(--line-strong);color:var(--ink);width:100%;border-radius:999px;padding:12px;font-weight:600}
-  .acc .logout:hover{background:var(--mist)}
+  /* minha conta — painel em tela cheia */
+  .acc-panel{position:fixed;inset:0;background:var(--mist);z-index:60;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .acc-panel[hidden]{display:none}
+  .acc-top{position:sticky;top:0;background:rgba(233,240,235,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:2}
+  .acc-top-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .acc-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;padding:32px 24px 80px;max-width:1120px;margin:0 auto}
+  .acc-nav{display:flex;flex-direction:column;gap:4px;position:sticky;top:88px;align-self:start}
+  .acc-tab{background:transparent;border:0;text-align:left;padding:12px 16px;border-radius:12px;color:var(--ink-soft);font-weight:600;font-size:15px;cursor:pointer;font-family:var(--body);white-space:nowrap}
+  .acc-tab:hover{background:var(--paper);color:var(--ink)}
+  .acc-tab.on{background:var(--ink);color:var(--paper)}
+  .acc-content{min-width:0}
+  .acc-view{display:none}
+  .acc-view.on{display:block}
+  .acc-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:16px}
+  .acc-card h3{font-family:var(--display);font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
+  .acc-card h4{font-family:var(--display);font-size:18px;letter-spacing:-.01em;margin-bottom:8px}
+  .acc-card .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;font-weight:600}
+  .acc-card.quiet{background:transparent;border:0;padding:0}
+  .acc-hello{font-family:var(--display);font-size:clamp(28px,4vw,38px);letter-spacing:-.02em;line-height:1.1;margin-bottom:4px}
+  .acc-hello-sub{color:var(--ink-soft);font-size:15px;margin-bottom:22px}
+  .acc-big{font-family:var(--display);font-weight:700;font-size:56px;letter-spacing:-.03em;line-height:1;color:var(--leaf-deep)}
+  .acc-big small{font-family:var(--body);font-size:16px;color:var(--ink-soft);font-weight:400;margin-left:10px;letter-spacing:0}
+  .acc-prog{margin-top:16px}
+  .acc-prog .lbl{font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+  .acc-prog .lbl b{color:var(--ink);font-weight:600}
+  .acc-prog .bar{height:10px;background:var(--mist);border-radius:999px;overflow:hidden}
+  .acc-prog .fill{height:100%;background:var(--leaf);transition:width .3s;border-radius:999px}
+  .acc-loading{color:var(--ink-soft);padding:16px 0;display:flex;align-items:center;gap:10px;font-size:14px}
+  .acc-loading::before{content:"";width:16px;height:16px;border:2px solid var(--line-strong);border-top-color:var(--leaf);border-radius:50%;animation:accSpin 1s linear infinite;flex:none}
+  @keyframes accSpin{to{transform:rotate(360deg)}}
+
+  /* pedidos */
+  .acc-order{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .acc-order:last-child{border-bottom:0}
+  .acc-order:first-child{padding-top:4px}
+  .acc-order .t{font-weight:600;font-size:16px}
+  .acc-order .meta{font-size:14px;color:var(--ink-soft);grid-column:1}
+  .acc-order .v{font-family:var(--display);font-weight:600;font-size:18px;text-align:right;white-space:nowrap}
+  .acc-order .top{grid-column:2;text-align:right}
+  .acc-order .act{grid-column:1/-1;margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .acc-order .lbl{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .acc-order .lbl.aguardando_pix{background:#FFF0D1;color:#8A5A00}
+  .acc-order .lbl.pago{background:#D6EEDF;color:#1F4E3D}
+  .acc-order .lbl.feita{background:#CDE8DB;color:#14302A}
+  .acc-order .lbl.cancelado{background:#F2D6CF;color:#7A2210}
+  .acc-order .repeat{background:transparent;border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .acc-order .repeat:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  .acc-empty{color:var(--ink-soft);padding:20px 0;text-align:center}
+  .acc-empty .btn{margin-top:14px}
+
+  /* extrato de pontos */
+  .acc-entry{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .acc-entry:last-child{border-bottom:0}
+  .acc-entry .t{font-weight:600}
+  .acc-entry .d{font-size:13px;color:var(--ink-soft)}
+  .acc-entry .delta{font-family:var(--display);font-weight:700;font-size:20px;text-align:right;align-self:center}
+  .acc-entry .delta.pos{color:var(--leaf-deep)}
+  .acc-entry .delta.neg{color:#A3341A}
+
+  /* prêmios */
+  .acc-prize{display:grid;grid-template-columns:1fr auto auto;gap:4px 14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center}
+  .acc-prize:last-child{border-bottom:0}
+  .acc-prize .nm{font-weight:600}
+  .acc-prize .pt{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink-soft)}
+  .acc-prize.done .pt{color:var(--leaf-deep)}
+  .acc-prize .tag{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--mist);color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .acc-prize.done .tag{background:var(--leaf);color:#fff}
+
+  /* config */
+  .acc-form .f{margin-bottom:12px}
+  .acc-form .f label{display:block;font-size:14px;font-weight:600;margin-bottom:5px}
+  .acc-form .f input{width:100%;background:var(--mist);border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px}
+  .acc-form .f input[disabled]{opacity:.6;cursor:not-allowed}
+  .acc-form .btn{margin-top:4px;padding:12px 22px}
+  .acc-form .ok{color:var(--leaf-deep);font-size:14px;margin-top:10px;min-height:1.2em}
+  .acc-form .err{color:#A3341A;font-size:14px;margin-top:10px;min-height:1.2em}
+  .acc-form .danger{background:transparent;border:1px solid var(--line-strong);color:var(--ink);padding:12px 22px;border-radius:999px;font-weight:600;cursor:pointer}
+  .acc-form .danger:hover{background:#F2D6CF;border-color:#C78472;color:#7A2210}
+
+  @media (max-width:760px){
+    .acc-body{grid-template-columns:1fr;gap:16px;padding:16px 0 60px}
+    .acc-nav{flex-direction:row;overflow-x:auto;padding:0 16px;position:static;scroll-snap-type:x mandatory;gap:6px}
+    .acc-nav::-webkit-scrollbar{display:none}
+    .acc-tab{scroll-snap-align:start;flex:0 0 auto;padding:10px 14px}
+    .acc-content{padding:0 16px}
+    .acc-card{padding:20px;border-radius:16px}
+    .acc-big{font-size:44px}
+  }
 
   footer{background:var(--ink);color:#DCE7E1;padding:40px 0}
   .foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -492,24 +558,115 @@
       </form>
     </div>
 
-    <!-- Minha conta -->
-    <div class="view acc" id="viewAcc">
-      <div class="top-row">
-        <div>
-          <h3>Minha conta</h3>
-          <p style="color:var(--ink-soft);font-size:14px;margin-top:2px" id="accWho"></p>
-        </div>
-      </div>
-      <div class="pts"><span id="accPts">0</span><small>pontos</small></div>
-      <div class="prog" id="accProg"></div>
-      <div class="sec">
-        <h4>Histórico de pedidos</h4>
-        <div id="accOrders"><p class="empty-ord">Você ainda não fez nenhum pedido.</p></div>
-      </div>
-      <button type="button" class="logout" id="accLogout">Sair</button>
-    </div>
   </div>
 </div>
+
+<!-- Painel Minha conta (tela cheia) -->
+<section class="acc-panel" id="accountPanel" aria-label="Minha conta" hidden>
+  <div class="acc-top">
+    <div class="wrap acc-top-in">
+      <a class="brand" href="#inicio" id="accBrand" aria-label="Lumenno, início">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="94" fill="#14302A"/>
+          <g fill="#E9F0EB">
+            <path d="M100 150 L100 66" stroke="#E9F0EB" stroke-width="5" stroke-linecap="round"/>
+            <path d="M100 128 C88 118,76 116,64 122 C72 132,84 134,100 128Z"/>
+            <path d="M100 128 C112 118,124 116,136 122 C128 132,116 134,100 128Z"/>
+            <path d="M100 104 C90 95,80 93,70 98 C77 107,88 109,100 104Z"/>
+            <path d="M100 104 C110 95,120 93,130 98 C123 107,112 109,100 104Z"/>
+          </g>
+          <circle cx="100" cy="54" r="9" fill="#F2B544"/>
+        </svg>
+        Lumenno
+      </a>
+      <button class="pill alt" id="accBack">Voltar ao site</button>
+    </div>
+  </div>
+
+  <div class="acc-body">
+    <aside class="acc-nav" role="tablist">
+      <button class="acc-tab on" data-tab="resumo"    role="tab">Resumo</button>
+      <button class="acc-tab"    data-tab="historico" role="tab">Histórico</button>
+      <button class="acc-tab"    data-tab="pontos"    role="tab">Pontos</button>
+      <button class="acc-tab"    data-tab="config"    role="tab">Configurações</button>
+    </aside>
+
+    <div class="acc-content">
+      <!-- Resumo -->
+      <section class="acc-view on" id="accResumo" role="tabpanel">
+        <div class="acc-card quiet">
+          <h2 class="acc-hello">Olá, <span id="rsHello"></span>.</h2>
+          <p class="acc-hello-sub">Seu saldo e o que está rolando por aqui.</p>
+        </div>
+        <div class="acc-card">
+          <div class="k">Saldo de pontos</div>
+          <div class="acc-big"><span id="rsPts">0</span><small>pontos</small></div>
+          <div class="acc-prog" id="rsProg"></div>
+        </div>
+        <div class="acc-card" id="rsLastWrap">
+          <div class="k">Pedido mais recente</div>
+          <div id="rsLast"><div class="acc-loading">Carregando…</div></div>
+        </div>
+      </section>
+
+      <!-- Histórico -->
+      <section class="acc-view" id="accHistorico" role="tabpanel">
+        <div class="acc-card">
+          <h3>Histórico</h3>
+          <p style="color:var(--ink-soft);font-size:14px;margin-bottom:12px">Todos os seus pedidos, do mais novo para o mais antigo.</p>
+          <div id="hstList"><div class="acc-loading">Carregando…</div></div>
+        </div>
+      </section>
+
+      <!-- Pontos -->
+      <section class="acc-view" id="accPontos" role="tabpanel">
+        <div class="acc-card">
+          <div class="k">Saldo</div>
+          <div class="acc-big"><span id="ptPts">0</span><small>pontos</small></div>
+        </div>
+        <div class="acc-card">
+          <h3>Extrato</h3>
+          <div id="ptLedger"><div class="acc-loading">Carregando…</div></div>
+        </div>
+        <div class="acc-card">
+          <h3>Prêmios</h3>
+          <p style="color:var(--ink-soft);font-size:14px;margin-bottom:8px">10 pontos para cada R$ 1 pago. Os prêmios abaixo são exibição; o resgate chega em breve.</p>
+          <div id="ptPrizes"></div>
+        </div>
+      </section>
+
+      <!-- Configurações -->
+      <section class="acc-view" id="accConfig" role="tabpanel">
+        <div class="acc-card">
+          <h3>Seus dados</h3>
+          <form class="acc-form" id="profileForm" novalidate>
+            <div class="f"><label for="cfEmail">E-mail</label><input id="cfEmail" type="email" disabled></div>
+            <div class="f"><label for="cfName">Nome completo</label><input id="cfName" type="text" autocomplete="name" required></div>
+            <div class="f"><label for="cfPhone">Telefone ou WhatsApp</label><input id="cfPhone" type="tel" autocomplete="tel" required></div>
+            <button class="btn" type="submit" id="cfBtn">Salvar</button>
+            <p class="ok" id="cfOk" role="status"></p>
+            <p class="err" id="cfErr" role="alert"></p>
+          </form>
+        </div>
+        <div class="acc-card">
+          <h3>Senha</h3>
+          <form class="acc-form" id="passForm" novalidate>
+            <div class="f"><label for="cpPass">Nova senha</label><input id="cpPass" type="password" autocomplete="new-password" minlength="6" required></div>
+            <div class="f"><label for="cpPass2">Confirmar senha</label><input id="cpPass2" type="password" autocomplete="new-password" minlength="6" required></div>
+            <button class="btn" type="submit" id="cpBtn">Trocar senha</button>
+            <p class="ok" id="cpOk" role="status"></p>
+            <p class="err" id="cpErr" role="alert"></p>
+          </form>
+        </div>
+        <div class="acc-card">
+          <h3>Sessão</h3>
+          <p style="color:var(--ink-soft);font-size:14px;margin-bottom:12px">Encerrar a sessão neste navegador.</p>
+          <button type="button" class="danger" id="cfLogout">Sair da conta</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="wrap">
@@ -569,7 +726,7 @@ const REWARDS = [
 const STATUS_LABEL = {
   aguardando_pix: 'Aguardando Pix',
   pago: 'Pago',
-  feita: 'Feita',
+  feita: 'Massagem feita',
   cancelado: 'Cancelado',
 };
 
@@ -874,6 +1031,7 @@ function initSupabase(){
       }
     }
     if (event === 'SIGNED_OUT'){
+      closeAccount();
       renderTopBar(); renderSessionForm();
     }
   });
@@ -942,15 +1100,14 @@ function closeAuth(){
   document.body.style.overflow = '';
 }
 function showView(name){
-  ['viewLogin','viewSignup','viewVerify','viewForgot','viewReset','viewAcc'].forEach(id => {
+  ['viewLogin','viewSignup','viewVerify','viewForgot','viewReset'].forEach(id => {
     $(id).classList.toggle('on', id === 'view' + name.charAt(0).toUpperCase() + name.slice(1));
   });
   ['liErr','suErr','fgErr','fgMsg','rsErr','vfMsg'].forEach(id => { const el = $(id); if (el) el.textContent = ''; });
-  if (name === 'acc') renderAccount();
 }
 
 $('authBtn').addEventListener('click', () => openAuth('login'));
-$('meBtn').addEventListener('click', () => openAuth('acc'));
+$('meBtn').addEventListener('click', () => openAccount('resumo'));
 $('authX').addEventListener('click', closeAuth);
 $('authModal').addEventListener('click', e => { if (e.target.id === 'authModal') closeAuth(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('authModal').classList.contains('on')) closeAuth(); });
@@ -1081,38 +1238,39 @@ $('resetForm').addEventListener('submit', async e => {
   }
 });
 
-// ------- Minha conta ---------
-async function renderAccount(){
-  if (!currentUser) return;
-  await refreshPoints();
-  renderTopBar();
-  $('accWho').textContent = currentUser.email || '';
-  $('accPts').textContent = currentPoints.toLocaleString('pt-BR');
-  $('accProg').innerHTML = progressBlock(currentPoints);
+// ============================================================
+// Painel Minha conta (tela cheia)
+// ============================================================
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-  const orders = await loadOrders();
-  if (!orders.length){
-    $('accOrders').innerHTML = '<p class="empty-ord">Você ainda não fez nenhum pedido.</p>';
-    return;
-  }
-  $('accOrders').innerHTML = orders.map(o => {
-    const dt = new Date(o.created_at);
-    const d = dt.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' });
-    const h = dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-    const itemsTxt = Array.isArray(o.items)
-      ? o.items.map(i => `${i.zoneLabel || i.zoneId} ${i.tierName || ''}`.trim()).join(' · ')
-      : '';
-    const status = STATUS_LABEL[o.status] || o.status || '';
-    const cls = (o.status || '').toLowerCase();
-    return `<div class="ord">
-      <span class="t">${itemsTxt || 'Pedido'}</span>
-      <span class="v">${money(Number(o.total))}</span>
-      <span class="d">${d} às ${h}</span>
-      <span class="s ${cls}">${status}</span>
-    </div>`;
-  }).join('');
+function openAccount(tab){
+  if (!currentUser){ openAuth('login'); return; }
+  $('accountPanel').hidden = false;
+  document.body.style.overflow = 'hidden';
+  selectAccTab(tab || 'resumo');
+}
+function closeAccount(){
+  $('accountPanel').hidden = true;
+  document.body.style.overflow = '';
 }
 
+function selectAccTab(tab){
+  document.querySelectorAll('.acc-tab').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  const map = { resumo:'accResumo', historico:'accHistorico', pontos:'accPontos', config:'accConfig' };
+  Object.entries(map).forEach(([k,id]) => $(id).classList.toggle('on', k === tab));
+  if (tab === 'resumo')    loadResumo();
+  if (tab === 'historico') loadHistorico();
+  if (tab === 'pontos')    loadPontos();
+  if (tab === 'config')    loadConfig();
+  const content = $('accountPanel');
+  if (content) content.scrollTop = 0;
+}
+document.querySelectorAll('.acc-tab').forEach(b => b.addEventListener('click', () => selectAccTab(b.dataset.tab)));
+$('accBack').addEventListener('click', closeAccount);
+$('accBrand').addEventListener('click', e => { e.preventDefault(); closeAccount(); $('inicio').scrollIntoView({behavior:'smooth'}); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('accountPanel').hidden) closeAccount(); });
+
+// ---- Progresso ----
 function progressBlock(pts){
   const next = REWARDS.filter(r => r.points > pts).sort((a,b) => a.points - b.points)[0];
   if (!next){
@@ -1121,24 +1279,232 @@ function progressBlock(pts){
   }
   const falta = next.points - pts;
   const pct = Math.max(0, Math.min(100, Math.round((pts / next.points) * 100)));
-  return `<div class="lbl">Faltam <b>${falta.toLocaleString('pt-BR')}</b> pontos para um <b>${next.name}</b>.</div>
+  return `<div class="lbl">Faltam <b>${falta.toLocaleString('pt-BR')}</b> pontos para um <b>${esc(next.name)}</b>.</div>
     <div class="bar"><div class="fill" style="width:${pct}%"></div></div>`;
 }
 
-async function loadOrders(){
+// ---- Dados ----
+async function loadOrders(limit){
   if (!sb || !currentUser) return [];
   const { data, error } = await sb
     .from('orders')
-    .select('id, items, total, status, created_at')
+    .select('id, items, total, status, created_at, customer_time')
     .order('created_at', { ascending: false })
-    .limit(30);
+    .limit(limit || 50);
   if (error) return [];
   return data || [];
 }
+async function loadLedger(){
+  if (!sb || !currentUser) return [];
+  const { data, error } = await sb
+    .from('points_ledger')
+    .select('id, delta, reason, created_at')
+    .order('created_at', { ascending: false })
+    .limit(200);
+  if (error) return [];
+  return data || [];
+}
+async function loadProfile(){
+  if (!sb || !currentUser) return null;
+  const { data, error } = await sb.from('profiles').select('name, phone').eq('id', currentUser.id).single();
+  if (error) return null;
+  return data;
+}
 
-$('accLogout').addEventListener('click', async () => {
+// ---- Renderização de pedido ----
+function orderItemsSummary(items){
+  if (!Array.isArray(items)) return '';
+  return items.map(i => `${esc(i.zoneLabel || i.zoneId || '')} ${esc(i.tierName || '')}`.trim()).join(' · ');
+}
+function orderItemsMeta(items){
+  if (!Array.isArray(items)) return '';
+  return items.map(i => {
+    const bits = [i.duration + ' min'];
+    if (i.intensity) bits.push('intensidade ' + (INTENSITY_LABEL[i.intensity] || i.intensity));
+    if (i.creme) bits.push('com creme');
+    if (i.express) bits.push('Express');
+    return `${esc(i.zoneLabel || '')} ${esc(i.tierName || '')} — ${esc(bits.join(', '))}`;
+  }).join('<br>');
+}
+function fmtDate(iso){
+  const dt = new Date(iso);
+  const d = dt.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  const h = dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  return d + ' às ' + h;
+}
+function orderCardHtml(o, { showRepeat }){
+  const status = STATUS_LABEL[o.status] || o.status || '';
+  const cls = String(o.status || '').toLowerCase();
+  return `<article class="acc-order" data-id="${esc(o.id)}">
+    <div><div class="t">${orderItemsSummary(o.items) || 'Pedido'}</div></div>
+    <div class="top"><div class="v">${esc(money(Number(o.total)))}</div><div style="margin-top:4px"><span class="lbl ${cls}">${esc(status)}</span></div></div>
+    <div class="meta">${fmtDate(o.created_at)}${o.customer_time ? ' · agendado para ' + esc(o.customer_time) : ''}</div>
+    <div class="meta" style="margin-top:4px">${orderItemsMeta(o.items)}</div>
+    ${showRepeat ? `<div class="act"><button type="button" class="repeat" data-rep="${esc(o.id)}">Repetir sessão</button></div>` : ''}
+  </article>`;
+}
+
+// ---- Resumo ----
+async function loadResumo(){
+  $('rsHello').textContent = firstName(currentUser);
+  await refreshPoints();
+  renderTopBar();
+  $('rsPts').textContent = currentPoints.toLocaleString('pt-BR');
+  $('rsProg').innerHTML = progressBlock(currentPoints);
+  $('rsLast').innerHTML = '<div class="acc-loading">Carregando…</div>';
+  const orders = await loadOrders(1);
+  if (!orders.length){
+    $('rsLast').innerHTML = `<div class="acc-empty">
+      <p>Você ainda não fez nenhum pedido.</p>
+      <button type="button" class="btn" id="rsCta">Montar minha primeira massagem</button>
+    </div>`;
+    const cta = $('rsCta');
+    if (cta) cta.addEventListener('click', () => { closeAccount(); $('builder').scrollIntoView({behavior:'smooth'}); });
+    return;
+  }
+  $('rsLast').innerHTML = orderCardHtml(orders[0], { showRepeat: true });
+  wireRepeatButtons('rsLast', orders);
+}
+
+// ---- Histórico ----
+async function loadHistorico(){
+  $('hstList').innerHTML = '<div class="acc-loading">Carregando…</div>';
+  const orders = await loadOrders(50);
+  if (!orders.length){
+    $('hstList').innerHTML = `<div class="acc-empty">
+      <p>Nenhum pedido ainda. Monte sua primeira sessão para ver aparecer por aqui.</p>
+      <button type="button" class="btn" id="hstCta">Montar massagem</button>
+    </div>`;
+    const cta = $('hstCta');
+    if (cta) cta.addEventListener('click', () => { closeAccount(); $('builder').scrollIntoView({behavior:'smooth'}); });
+    return;
+  }
+  $('hstList').innerHTML = orders.map(o => orderCardHtml(o, { showRepeat: true })).join('');
+  wireRepeatButtons('hstList', orders);
+}
+
+function wireRepeatButtons(containerId, orders){
+  const byId = new Map(orders.map(o => [o.id, o]));
+  $(containerId).querySelectorAll('[data-rep]').forEach(b => {
+    b.addEventListener('click', () => {
+      const o = byId.get(b.dataset.rep);
+      if (o) repeatSession(o.items);
+    });
+  });
+}
+
+function repeatSession(items){
+  if (!Array.isArray(items) || !items.length) return;
+  session = items.map(i => ({
+    zoneId: i.zoneId, tierId: i.tierId,
+    zone: i.zoneLabel || i.zoneId,
+    tier: i.tierName || '',
+    duration: Number(i.duration) || 30,
+    intensity: i.intensity || null,
+    creme: !!i.creme, express: !!i.express,
+    price: Number(i.price) || 0,
+  }));
+  renderSession();
+  saveDraft();
+  closeAccount();
+  $('added').textContent = 'Sessão copiada do seu histórico. Confira e confirme.';
+  setTimeout(() => $('sessao').scrollIntoView({ behavior:'smooth' }), 80);
+}
+
+// ---- Pontos ----
+async function loadPontos(){
+  await refreshPoints();
+  renderTopBar();
+  $('ptPts').textContent = currentPoints.toLocaleString('pt-BR');
+  $('ptLedger').innerHTML = '<div class="acc-loading">Carregando…</div>';
+  const entries = await loadLedger();
+  if (!entries.length){
+    $('ptLedger').innerHTML = '<p style="color:var(--ink-soft)">Nenhuma movimentação ainda.</p>';
+  } else {
+    $('ptLedger').innerHTML = entries.map(e => {
+      const delta = Number(e.delta) || 0;
+      const sign = delta >= 0 ? '+' : '−';
+      const abs = Math.abs(delta).toLocaleString('pt-BR');
+      return `<div class="acc-entry">
+        <div class="t">${esc(e.reason || '')}</div>
+        <div class="delta ${delta >= 0 ? 'pos' : 'neg'}">${sign}${abs}</div>
+        <div class="d">${fmtDate(e.created_at)}</div>
+      </div>`;
+    }).join('');
+  }
+  $('ptPrizes').innerHTML = REWARDS.map(r => {
+    const done = currentPoints >= r.points;
+    const diff = r.points - currentPoints;
+    return `<div class="acc-prize ${done ? 'done' : ''}">
+      <span class="nm">${esc(r.name)}</span>
+      <span class="pt">${r.points.toLocaleString('pt-BR')} pts</span>
+      <span class="tag">${done ? 'Alcançado' : 'Faltam ' + diff.toLocaleString('pt-BR')}</span>
+    </div>`;
+  }).join('');
+}
+
+// ---- Configurações ----
+async function loadConfig(){
+  $('cfOk').textContent = ''; $('cfErr').textContent = '';
+  $('cpOk').textContent = ''; $('cpErr').textContent = '';
+  $('cpPass').value = ''; $('cpPass2').value = '';
+  $('cfEmail').value = currentUser?.email || '';
+  $('cfName').value = ''; $('cfPhone').value = '';
+  const p = await loadProfile();
+  if (p){
+    $('cfName').value = p.name || '';
+    $('cfPhone').value = p.phone || '';
+  }
+}
+
+$('profileForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('cfName').value.trim();
+  const phone = $('cfPhone').value.trim();
+  const ok = $('cfOk'), err = $('cfErr'), btn = $('cfBtn');
+  ok.textContent = ''; err.textContent = '';
+  if (!name){ err.textContent = 'Preencha seu nome.'; return; }
+  if (!phone){ err.textContent = 'Preencha seu telefone.'; return; }
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  try {
+    const { error: e1 } = await sb.from('profiles').update({ name, phone }).eq('id', currentUser.id);
+    if (e1) throw new Error(e1.message);
+    const { error: e2 } = await sb.auth.updateUser({ data: { name, phone } });
+    if (e2) throw new Error(e2.message);
+    const { data } = await sb.auth.getUser();
+    if (data?.user) currentUser = data.user;
+    renderTopBar();
+    ok.textContent = 'Pronto, seus dados foram atualizados.';
+  } catch (ex) {
+    err.textContent = prettyAuthError(ex.message) || 'Não conseguimos salvar agora. Tente de novo.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Salvar';
+  }
+});
+
+$('passForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const p1 = $('cpPass').value, p2 = $('cpPass2').value;
+  const ok = $('cpOk'), err = $('cpErr'), btn = $('cpBtn');
+  ok.textContent = ''; err.textContent = '';
+  if (p1.length < 6){ err.textContent = 'A senha precisa ter no mínimo 6 caracteres.'; return; }
+  if (p1 !== p2){ err.textContent = 'As senhas não batem.'; return; }
+  btn.disabled = true; btn.textContent = 'Trocando...';
+  try {
+    const { error } = await sb.auth.updateUser({ password: p1 });
+    if (error) throw new Error(error.message);
+    $('cpPass').value = ''; $('cpPass2').value = '';
+    ok.textContent = 'Senha trocada.';
+  } catch (ex) {
+    err.textContent = prettyAuthError(ex.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Trocar senha';
+  }
+});
+
+$('cfLogout').addEventListener('click', async () => {
   await sb.auth.signOut();
-  closeAuth();
+  closeAccount();
 });
 
 // ------- Init ---------
